@@ -1,0 +1,26 @@
+<template>
+  <div class="row">
+    <form class="mt-2 mx-auto form-inline">
+        <label for="filter-departments" class="mr-1 text-right">Filter</label>
+        <div class="input-group">
+          <input type="search" value.bind="filterterm" size=90 class="form-control filter" id="fn" placeholder="Tippen Sie los, um die Anzeige zu filtern">
+        </div>
+    </form>
+  </div>
+
+  <section class="au-animate mt-4">
+    <div class="row au-stagger">
+      <div class="col-sm-6 col-md-3 card-container au-animate" repeat.for="department of departments">
+        <div class="card" departments.bind="departments">
+          <div class="content">
+            <p class="name">${department.attributes.dname}</p>
+            <div class="btn-group">
+              <a class="btn btn-primary" route-href="route: department; params.bind: {id:department.id}" >Admin [${department.id}]</a>
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</template>
