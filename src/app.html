@@ -1,3 +1,16 @@
+
 <template>
-  <h1>${message}</h1>
+  <require from='bootstrap/css/bootstrap.css'></require>
+  <require from='./resources/styles/styles.css'></require>
+  <require from="./resources/elements/navigation/nav-bar.html"></require>
+  <require from="./resources/elements/navigation/footer.html"></require>
+  
+  <nav-bar router.bind="router"></nav-bar>
+
+  <div class="container">
+    <router-view></router-view>
+  </div>
+
+  <footer></footer>
+  
 </template>
