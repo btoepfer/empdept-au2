@@ -24,7 +24,7 @@ export class DepartmentApi {
     return this.http.fetch('departments')
       .then(response => response.json())
       .then(departments => {
-        console.log(departments.data);
+        //console.log(departments.data);
         return departments.data;
       });
   }
