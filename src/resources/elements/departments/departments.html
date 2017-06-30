@@ -1,10 +1,23 @@
 <template>
+  <require from="../../value-converters/to-lower"></require>
+   <require from="../../value-converters/to-upper"></require>
+
   <div class="row">
     <form class="mt-2 mx-auto form-inline" submit.trigger="filterDepartments()">
         <label for="filter-departments" class="mr-1 text-right">Filter</label>
         <div class="input-group">
-          <input type="search"  value.bind="filterTerm" size=90 class="form-control filter" id="fn" autofocus placeholder="Anzeige filtern">
-          <button type="submit" class="btn btn-primary">Los!</button>
+          <input type="search"  value.bind="filterTerm | toLower"  size=90 class="form-control filter" id="filterTerm" autofocus placeholder="Anzeige filtern">
+          <!-- <button type="submit" class="btn btn-primary">Los!</button> -->
+          <button  type="button" click.delegate="clearFilterTerm()" class="btn btn-primary"><i class="fa fa-times"></i></button>
+        </div>
+    </form>
+  </div>
+
+    <div class="row">
+    <form class="mt-2 mx-auto form-inline" submit.trigger="addDepartment()">
+        <div class="input-group">
+          <input type="text"  value.bind="newDepartment | toUpper"  size=50 class="form-control " id="addDept"  placeholder="Neue Abteilung">
+          <button  type="submit"  class="btn btn-primary"><i class="fa fa-plus"></i></button>
         </div>
     </form>
   </div>
@@ -12,9 +25,9 @@
   <section class="au-animate mt-4">
     <div class="row au-stagger">
       <div class="col-sm-6 col-md-3 card-container au-animate" repeat.for="department of filteredDepartments">
-        <div class="card" departments.bind="filteredDepartments">
+        <div class="card">
           <div class="content">
-            <p class="name">${department.attributes.dname}</p>
+            <p class="name">${department.attributes.dname}${department.dname}</p>
             <div class="btn-group">
               <a class="btn btn-primary" route-href="route: department; params.bind: {id:department.id}" >Admin [${department.id}]</a>
             </div>
