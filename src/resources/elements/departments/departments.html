@@ -3,7 +3,7 @@
    <require from="../../value-converters/to-upper"></require>
 
   <div class="row">
-    <form class="mt-2 mx-auto form-inline" submit.trigger="filterDepartments()">
+    <form class="mt-2 mx-auto form-inline" submit.trigger="filterDepartments(filterTerm)">
         <label for="filter-departments" class="mr-1 text-right">Filter</label>
         <div class="input-group">
           <input type="search"  value.bind="filterTerm | toLower"  size=90 class="form-control filter" id="filterTerm" autofocus placeholder="Anzeige filtern">

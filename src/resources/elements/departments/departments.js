@@ -21,14 +21,10 @@ export class Departments {
 
 
 
-  filterDepartments() {
+  filterDepartments(filterTerm) {
 
     if (this.departments.length === 0)
       this.departments = this.filteredDepartments;
-
-    // console.log(this.departments);
-    
-    let filterTerm = this.filterTerm;
 
     this.filteredDepartments = this.departments.filter(function(department) {
       return department.attributes.dname.toLowerCase().indexOf(filterTerm) !== -1;
@@ -39,7 +35,7 @@ export class Departments {
   clearFilterTerm() {
     this.filterTerm = '';
     
-    this.filterDepartments();
+    this.filterDepartments(this.filterTerm);
     $("#filterTerm").focus();
     return true;
   }  

@@ -1,0 +1,12 @@
+<template>
+  <div if.bind="!edit">
+    <span>${name}</span><span click.delegate="changeEdit()">&nbsp;<i class="fa fa-pencil"></i></span>
+  </div>
+  
+  <div if.bind="edit">
+    <form submit.trigger="changeEdit()">
+      <input  type="text"  name="editable" value.bind="name">
+      <span click.delegate="changeEdit()"><i class="fa fa-check"></i></span>
+    </form>
+  </div>
+</template>

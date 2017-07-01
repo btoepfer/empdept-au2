@@ -11,8 +11,8 @@ export class DepartmentApi {
         .withBaseUrl('http://localhost:3000/')
           .withDefaults({
             headers: {
-              'content-type': 'application/json',
-              'Accept': 'application/json',
+              'content-type': 'application/vnd.api+json',
+              'Accept': 'application/vnd.api+json',
               'X-Requested-With': 'Fetch'
             }
           })
@@ -33,7 +33,6 @@ export class DepartmentApi {
     return this.http.fetch('departments/'+departmentID)
       .then(response => response.json())
       .then(department => {
-        console.log(department.data);
         return department.data;
       });
   }

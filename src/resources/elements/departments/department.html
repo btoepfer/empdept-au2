@@ -1,5 +1,5 @@
 <template>
-  <h1>${department.attributes.dname} <br/>
-    <small>${department.attributes.loc}</small>
-  </h1>
+  <h1>${result.attributes.dname}</h1>
+  <strong>Location:</strong>
+  <editable-field name.bind="result.attributes.loc"></editable-field>
 </template>
