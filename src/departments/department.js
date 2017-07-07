@@ -5,7 +5,8 @@ import { DepartmentApi } from '../services/department-api';
 export class Department {
 
     constructor(departmentApi, dname, loc) {
-        this.result = "";
+        this.department = "";
+        this.employees = [];
         this.departmentApi = departmentApi;
         this.dname = dname;
         this.loc = loc;
@@ -13,13 +14,20 @@ export class Department {
     }
 
     activate(params) {
-        this.departmentApi.getDepartment(params.id).then(department => this.result = department);
+        // Get Department
+        this.departmentApi.getDepartment(params.id).then(department => this.department = department);
+
+        // Get Employees of selected Department
+        this.departmentApi.getEmployees(params.id).then(employees => this.employees = employees);
     }
 
-    bind() {
-        //this.dname = this.result.attributes.dname;
-        //this.loc   = this.result.loc;
-        console.log(`DName: ${this.dname}`)
+    editEmployee(id) {
+        alert(`Employee: ${id} edited.`);
     }
+
+    deleteEmployee(id) {
+        alert(`Employee: ${id} deleted.`);
+    }
+
 
 }

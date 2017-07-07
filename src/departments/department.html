@@ -1,5 +1,43 @@
 <template>
-  <h1>${result.attributes.dname}</h1>
-  <strong>Location:</strong>
-  <editable-field name.bind="result.attributes.loc"></editable-field>
+  <section class="au-animate">
+    <div class="row">
+      <h4>${department.attributes.dname}
+        <small>located in ${department.attributes.loc}</small>
+      </h4>
+    </div>
+    
+    <div class="row  mt-2">
+      <table class="table table-sm table-hover">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Job</th>
+            <th>Hiredate</th>
+            <th>Salary</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr  repeat.for="employee of employees">
+            <th scope="row">${employee.attributes.empno}</th>
+            <td>${employee.attributes.ename}</td>
+            <td>${employee.attributes.job}</td>
+            <td>${employee.attributes.hiredate}</td>
+            <td>${employee.attributes.sal}</td>
+            <td>
+              <div class="toolbar">
+                <span click.delegate="editEmployee(employee.id)">
+                  <i class="far fa-pencil"></i>
+                </span>
+                <span click.delegate="deleteEmployee(employee.id)">
+                  <i class="far fa-trash"></i>
+                </span>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
 </template>

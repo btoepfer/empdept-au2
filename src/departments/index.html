@@ -29,14 +29,24 @@
     <div class="row">
       <div class="col-md-4 justify-content-start">
         <div class="list-group">
+          <div>
             <a repeat.for="department of filteredDepartments"
                route-href="route: department; params.bind: {id:department.id}" 
                class="list-group-item list-group-item-action flex-column align-items-start ${(deptRouter.currentInstruction.params.id === department.id) ? 'active' : ''}">
                 <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1">${department.attributes.dname}</h5>
+                    <span class="toolbar">
+                      <span click.delegate="editDepartment(department.id)">
+                        <i class="far fa-pencil"></i>
+                      </span>
+                      <span click.delegate="deleteDepartment(department.id)">
+                        <i class="far fa-trash"></i>
+                      </span>
+                    </span>
                 </div>
                 <p class="mt-1 mb-1"><small>${department.attributes.loc}</small></p>
             </a>
+          </div>
         </div>
       </div>
       <div class="col-md-8 justify-content-start">

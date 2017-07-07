@@ -8,13 +8,25 @@
     color: #fff
 }
 
-.toolbar {
-    span {
-        color: $gray;
-        cursor: pointer;
-        margin: 0rem 0.25rem;
+.table-hover,
+.list-group-item {
+    tr,
+    div {
+        .toolbar {
+            display: none;
+        }
         &:hover {
-            color: $gray-darker;
+            .toolbar {
+                display: inline-block;
+                span {
+                    color: $gray;
+                    cursor: pointer;
+                    margin: 0rem 0.25rem;
+                    &:hover {
+                        color: black;
+                    }
+                }
+            }
         }
     }
 }

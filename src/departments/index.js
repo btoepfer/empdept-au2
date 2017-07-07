@@ -58,6 +58,15 @@ export class Departments {
         }
     }
 
+    editDepartment(id) {
+        alert(`Department: ${id} edited.`);
+    }
+
+    deleteDepartment(id) {
+        alert(`Department: ${id} deleted.`);
+    }
+
+
 
 
 
