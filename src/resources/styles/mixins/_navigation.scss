@@ -1,0 +1,20 @@
+// Navigation
+.nav-link {
+    color: $gray-darker;
+}
+
+.navbar-nav li.loader {
+    margin: 2px 2px 0 6px;
+    color: #fff
+}
+
+.toolbar {
+    span {
+        color: $gray;
+        cursor: pointer;
+        margin: 0rem 0.25rem;
+        &:hover {
+            color: $gray-darker;
+        }
+    }
+}

@@ -3,9 +3,14 @@
   <require from='./resources/styles/styles.css'></require>
   <require from="./navigation/nav-bar.html"></require>
   <require from="./navigation/footer.html"></require>
-  
-  <nav-bar router.bind="router"></nav-bar>
+  <require from="./resources/elements/loading-indicator"></require>
 
+  <loading-indicator loading.bind="router.isNavigating"></loading-indicator>
+
+  <header>
+    <nav-bar router.bind="router"></nav-bar>
+  </header>
+  
   <div class="container">
     <router-view></router-view>
   </div>

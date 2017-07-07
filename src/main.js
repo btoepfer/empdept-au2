@@ -10,7 +10,8 @@ import fontawesome from './resources/styles/fontawesome5/fontawesome';
 export function configure(aurelia) {
     aurelia.use
         .standardConfiguration()
-        .feature('resources');
+        .feature('resources')
+        .plugin('aurelia-animator-css');
 
     if (environment.debug) {
         aurelia.use.developmentLogging();
