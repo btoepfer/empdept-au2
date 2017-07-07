@@ -1,0 +1,47 @@
+<template>
+  <require from="./department-list.html"></require>
+  <require from="../resources/value-converters/to-lower"></require>
+
+  <!--
+    <div class="row">
+      <form class="mt-2 mx-auto form-inline" submit.trigger="addDepartment()">
+          <div class="input-group">
+            <input type="text"  value.bind="newDepartment | toUpper"  size=50 class="form-control " id="addDept"  placeholder="Neue Abteilung">
+            <button  type="submit"  class="btn btn-primary"><i class="fa fa-plus"></i></button>
+          </div>
+      </form>
+    </div>
+  -->
+
+  <section class=" mt-2  au-animate">
+    <div class="row">
+      <div class="col-md-4 justify-content-start">
+        <form class="mt-4 form-inline" submit.trigger="filterDepartments(filterTerm)">
+            <div class="input-group" >
+                <input type="search" size="100%" value.bind="filterTerm | toLower" class="form-control filter" id="filterTerm" autofocus placeholder="Anzeige filtern">
+                <span class="input-group-btn">
+              <button  type="submit"  class="btn btn-primary"><i class="fa fa-search"></i></button>
+            </span>
+            </div>
+        </form>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 justify-content-start">
+        <div class="list-group">
+            <a repeat.for="department of filteredDepartments"
+               route-href="route: department; params.bind: {id:department.id}" 
+               class="list-group-item list-group-item-action flex-column align-items-start ${(deptRouter.currentInstruction.params.id === department.id) ? 'active' : ''}">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">${department.attributes.dname}</h5>
+                </div>
+                <p class="mt-1 mb-1"><small>${department.attributes.loc}</small></p>
+            </a>
+        </div>
+      </div>
+      <div class="col-md-8 justify-content-start">
+        <router-view></router-view>
+      </div>
+    </div>
+  </section>
+</template>

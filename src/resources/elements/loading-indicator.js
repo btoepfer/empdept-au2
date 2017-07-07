@@ -1,9 +1,9 @@
 import nprogress from 'nprogress';
 import { bindable, noView } from 'aurelia-framework';
 
-nprogress.configure({ showSpinner: true }); // diese Anweisung wird genau einmal aufgerufen, nicht für jede Instanz
+nprogress.configure({ showSpinner: false });
 
-@noView(['nprogress/nprogress.css']) // wir benötigen keine View
+@noView(['nprogress/nprogress.css'])
 export class LoadingIndicator {
     @bindable loading = false;
 

@@ -13,10 +13,19 @@ export class Departments {
         this.departmentApi = departmentApi;
     }
 
+    configureRouter(config, router) {
+        config.map([
+            { route: '', moduleId: './no-selection' },
+            { route: ':id', moduleId: './department', name: 'department' }
+        ]);
+
+        this.deptRouter = router;
+    }
 
     activate() {
         console.log("View activated");
         this.departmentApi.getDepartments().then(departments => this.filteredDepartments = departments);
+        console.log(this.deptRouter);
     }
 
 
@@ -41,56 +50,14 @@ export class Departments {
     }
 
     addDepartment() {
-            if (this.newDepartment) {
-                let newDept = new Department(this.departmentApi, this.newDepartment);
-                this.departments.push(newDept);
-                this.filteredDepartments.push(newDept);
-                this.newDepartment = "";
-            }
+        if (this.newDepartment) {
+            let newDept = new Department(this.departmentApi, this.newDepartment);
+            this.departments.push(newDept);
+            this.filteredDepartments.push(newDept);
+            this.newDepartment = "";
         }
-        // Lifecycle Hooks
-
-    created() {
-        console.log("View created");
     }
 
-    bind() {
-        console.log("Data binded between model and view");
-    }
-
-    attached() {
-        console.log("View attached to the DOM");
-    }
-
-    detached() {
-        console.log("View detached from the DOM");
-    }
-
-    unbind() {
-        console.log("Data unbinded");
-    }
-
-    // Navigation Lifecycle
-
-    canDeactivate() {
-        console.log("Deactivation: true");
-        return true;
-    }
-
-    canActivate() {
-        console.log("Activation: true");
-        return true;
-    }
-
-    deactivate() {
-        console.log("View deactivated");
-        return true;
-    }
-
-    //activate() {
-    //   console.log("View activated");
-    //  this.departmentApi.getDepartments().then(departments => this.filteredDepartments = departments);
-    //}
 
 
 
