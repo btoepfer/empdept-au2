@@ -1,4 +1,4 @@
-import { HttpClient } from 'aurelia-fetch-client';
+import { HttpClient, json } from 'aurelia-fetch-client';
 import { inject } from 'aurelia-framework';
 
 @inject(HttpClient)
@@ -29,6 +29,14 @@ export class DepartmentApi {
             });
     }
 
+     getDepartment(departmentID) {
+        return this.http.fetch(`departments/${departmentID}`)
+            .then(response => response.json())
+            .then(department => {
+                return department.data;
+            });
+    }
+
     getEmployees(departmentID) {
         return this.http.fetch(`departments/${departmentID}/employees`)
             .then(response => response.json())
@@ -38,11 +46,19 @@ export class DepartmentApi {
             });
     }
 
-    getDepartment(departmentID) {
-        return this.http.fetch(`departments/${departmentID}`)
-            .then(response => response.json())
-            .then(department => {
-                return department.data;
-            });
-    }
+   addEmployee(employee)  {
+     console.log(json(employee));
+     console.log(employee);
+    let json_string = {"data":{"attributes":employee, 
+                                "relationships":{"department":{"data":{"type":"departments", "id":employee.department_id}}}, 
+                                "type":"employees"}};
+    return this.http.fetch('employees', {
+          method: 'post',
+          body: JSON.stringify(json_string)
+        })
+        .then(response => { 
+          response.json();
+          console.log(response);
+        });
+    };
 }

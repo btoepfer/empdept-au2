@@ -13,20 +13,20 @@
     </div>
   -->
 
-  <section class=" mt-2  au-animate">
+  <section class="mt-2  au-animate">
     <div class="row">
       <div class="col-md-4 justify-content-start">
-        <form class="mt-4 form-inline" submit.trigger="filterDepartments(filterTerm)">
+        <form class="mt-4 form-inline" keypress.trigger="filterDepartments(filterTerm)" submit.trigger="clearFilterTerm()">
             <div class="input-group" >
                 <input type="search" size="100%" value.bind="filterTerm | toLower" class="form-control filter" id="filterTerm" autofocus placeholder="Anzeige filtern">
                 <span class="input-group-btn">
-              <button  type="submit"  class="btn btn-primary"><i class="fa fa-search"></i></button>
+              <button  type="submit"  class="btn btn-primary"><i class="fa fa-times"></i></button>
             </span>
             </div>
         </form>
       </div>
     </div>
-    <div class="row">
+    <div class="row mt-2">
       <div class="col-md-4 justify-content-start">
         <div class="list-group">
           <div>

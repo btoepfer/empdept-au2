@@ -6,6 +6,37 @@
       </h4>
     </div>
     
+    <div class="row mt-2">
+      <form class="form-inline" submit.trigger="addEmployee()">
+        <label class="sr-only" for="empno">#</label> 
+        <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="empno" size=3 placeholder="#" value.bind="employee.empno" required="true">
+
+        <label class="sr-only" for="ename">Name</label>
+        <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="ename" size=15 placeholder="Name" value.bind="employee.ename" required="true">
+
+        <label class="sr-only" for="job">Job</label> 
+        <select class="form-control mb-2 mr-sm-2 mb-sm-0" value.bind="employee.job">
+          <option>Job...</option>
+          <option value="MANAGER">MANAGER</option>
+          <option value="CLERK">CLERK</option>
+          <option value="SALESMEN">SALESMEN</option>
+          <option value="ANALYST">ANALYST</option>
+          <option value="PRESIDENT">PRESIDENT</option>
+        </select>
+    
+
+        <label class="sr-only" for="hiredate">Hiredate</label> 
+        <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="hiredate" size=10 placeholder="Hiredate" value.bind="employee.hiredate">
+
+        <label class="sr-only" for="salary">Salary</label>
+        <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="salary" size=5 placeholder="Salary" value.bind="employee.sal">
+
+        <button type="submit" class="btn-sm btn-primary" >
+          Add&nbsp;<i class="fa fa-plus"></i>
+        </button>
+      </form>
+    </div>
+
     <div class="row  mt-2">
       <table class="table table-sm table-hover">
         <thead>

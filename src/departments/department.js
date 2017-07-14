@@ -11,6 +11,7 @@ export class Department {
         this.dname = dname;
         this.loc = loc;
         this.id = 0;
+        this.employee = {department_id:"", empno: "", ename: "TOEPFER", job: "CLERK", sal:"", hiredate:""};
     }
 
     activate(params) {
@@ -27,6 +28,15 @@ export class Department {
 
     deleteEmployee(id) {
         alert(`Employee: ${id} deleted.`);
+    }
+
+    addEmployee() {
+        alert(`Add Employee: ${this.department.id}.`);
+        this.employee.department_id = this.department.id;
+        let emp = this.employee;
+
+        this.departmentApi.addEmployee(emp)
+         .then(employee => {console.log(employee);});
     }
 
 
