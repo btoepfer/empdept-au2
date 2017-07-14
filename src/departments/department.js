@@ -52,7 +52,9 @@ export class Department {
         .then(employees => {
           this.employees = employees;
           this.employee = this.clearEmployee();
-          $("#empno").focus();}))
+          $("#empno").focus();
+        })
+      )
       .catch(err => alert(err.statusText));
   }
 
