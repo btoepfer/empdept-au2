@@ -1,74 +1,17 @@
 <template>
+  <require from="./employee-list"></require>
+  <require from="./employee-edit"></require>
+
   <section class="au-animate">
     <div class="row">
       <h4>${department.attributes.dname}
         <small>located in ${department.attributes.loc}</small>
       </h4>
     </div>
-    
-    <div class="row mt-2">
-      <form class="form-inline" submit.trigger="saveEmployee()">
-        <label class="sr-only" for="empno">#</label> 
-        <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="empno" size=3 placeholder="#" value.bind="employee.empno" required="true">
-
-        <label class="sr-only" for="ename">Name</label>
-        <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="ename" size=15 placeholder="Name" value.bind="employee.ename" required="true">
-
-        <label class="sr-only" for="job">Job</label> 
-        <select class="form-control mb-2 mr-sm-2 mb-sm-0" value.bind="employee.job">
-          <option>Job...</option>
-          <option value="MANAGER">MANAGER</option>
-          <option value="CLERK">CLERK</option>
-          <option value="SALESMEN">SALESMEN</option>
-          <option value="ANALYST">ANALYST</option>
-          <option value="PRESIDENT">PRESIDENT</option>
-        </select>
-    
-
-        <label class="sr-only" for="hiredate">Hiredate</label> 
-        <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="hiredate" size=10 placeholder="Hiredate" value.bind="employee.hiredate">
-
-        <label class="sr-only" for="salary">Salary</label>
-        <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="salary" size=5 placeholder="Salary" value.bind="employee.sal">
-
-        <button type="submit" class="btn-sm btn-primary" >
-          Add&nbsp;<i class="fa fa-plus"></i>
-        </button>
-      </form>
-    </div>
+  
 
     <div class="row  mt-2">
-      <table class="table table-sm table-hover">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Name</th>
-            <th>Job</th>
-            <th>Hiredate</th>
-            <th>Salary</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr  repeat.for="employee of employees">
-            <th scope="row">${employee.attributes.empno}</th>
-            <td>${employee.attributes.ename}</td>
-            <td>${employee.attributes.job}</td>
-            <td>${employee.attributes.hiredate}</td>
-            <td>${employee.attributes.sal}</td>
-            <td>
-              <div class="toolbar">
-                <span click.delegate="editEmployee(employee.id)">
-                  <i class="far fa-pencil"></i>
-                </span>
-                <span click.delegate="deleteEmployee(employee.id)">
-                  <i class="far fa-trash"></i>
-                </span>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <employee-list employees.bind="employees" department.bind="department"></employee-list>
     </div>
   </section>
 </template>

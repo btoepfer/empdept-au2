@@ -47,18 +47,30 @@ export class DepartmentApi {
   }
 
   saveEmployee(employee)  {
-    const emp_jsonapi = {"data":{
+    let emp_jsonapi = {"data":{
         "id":employee.id, 
-        "attributes":employee, 
-        //"relationships":{"department":{"data":{"type":"departments", "id":employee.department_id}}}, 
+        "attributes":employee,
+        "relationships":{"department":{"data":{"type":"departments", "id":employee.department_id}}}
         //"type":"employees"
       }};
 
-    let http_method = "post";
-    if (employee.id) 
+    let http_method = "POST";
+    let http_url = 'employees';
+     
+    if (employee.id) {
       http_method = "PATCH";
+      http_url    = `${http_url}/${employee.id}`;
+      emp_jsonapi = {"data":{
+        "id":employee.id, 
+        "attributes":employee.attributes,
+        "relationships":employee.relationships}
+        //"type":"employees"
+      };
+    };
+    
+    console.log(JSON.stringify(employee));
 
-    return this.http.fetch('employees', {
+    return this.http.fetch(http_url, {
           method: http_method,
           body: JSON.stringify(emp_jsonapi)
         })

@@ -1,0 +1,103 @@
+<template>
+    <form class="form-inline" submit.trigger="addEmployee()">
+    <label class="sr-only" for="empno">#</label> 
+    <input type="text" class="form-control-sm mb-2 mr-sm-2 mb-sm-0" id="empno" size=5 placeholder="#" value.bind="employee.empno" required="true">
+
+    <label class="sr-only" for="ename">Name</label>
+    <input type="text" class="form-control-sm mb-2 mr-sm-2 mb-sm-0" id="ename" size=20 placeholder="Name" value.bind="employee.ename" required="true">
+
+    <label class="sr-only" for="job">Job</label> 
+    <select class="form-control-sm mb-2 mr-sm-2 mb-sm-0" value.bind="employee.job">
+      <option>Job...</option>
+      <option value="MANAGER">MANAGER</option>
+      <option value="CLERK">CLERK</option>
+      <option value="SALESMEN">SALESMEN</option>
+      <option value="ANALYST">ANALYST</option>
+      <option value="PRESIDENT">PRESIDENT</option>
+    </select>
+
+
+    <label class="sr-only" for="hiredate">Hiredate</label> 
+    <input type="text" class="form-control-sm mb-2 mr-sm-2 mb-sm-0" id="hiredate" size=12 placeholder="Hiredate" value.bind="employee.hiredate">
+
+    <label class="sr-only" for="salary">Salary</label>
+    <input type="text" class="form-control-sm mb-2 mr-sm-2 mb-sm-0" id="salary" size=5 placeholder="Salary" value.bind="employee.sal">
+
+    <button type="submit" class="btn-sm btn-primary">
+      Add&nbsp;<i class="fa fa-plus"></i>
+    </button>
+  </form>
+
+  <form class="form-inline">
+    <table class="table table-sm table-hover">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Job</th>
+          <th>Hiredate</th>
+          <th>Salary</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr  repeat.for="employee of employees">
+          <th scope="row">${employee.attributes.empno}</th>
+          <td> 
+            <div if.bind="(employee_edit_id!=employee.id)" style="width:10rem;">${employee.attributes.ename}</div>
+            <div if.bind="(employee_edit_id===employee.id)" style="width:10rem;">
+              <input type="text" class="form-control-sm mb-2 mr-sm-2 mb-sm-0" id="ename" size=20 placeholder="Name" value.bind="employee.attributes.ename" required="true">
+            </div>
+          </td>
+          <td>
+            <div if.bind="(employee_edit_id!=employee.id)" style="width:10rem;">${employee.attributes.job}</div>
+            <div if.bind="(employee_edit_id===employee.id)" style="width:10rem;">
+              <select class="form-control-sm mb-2 mr-sm-2 mb-sm-0" value.bind="employee.attributes.job">
+                <option>Job...</option>
+                <option value="MANAGER">MANAGER</option>
+                <option value="CLERK">CLERK</option>
+                <option value="SALESMEN">SALESMEN</option>
+                <option value="ANALYST">ANALYST</option>
+                <option value="PRESIDENT">PRESIDENT</option>
+              </select>
+            </div>
+          </td>
+          <td>
+            <div if.bind="(employee_edit_id!=employee.id)" style="width:7rem;">${employee.attributes.hiredate}</div>
+              <div if.bind="(employee_edit_id===employee.id)" style="width:7rem;">
+              <input type="text" class="form-control-sm mb-2 mr-sm-2 mb-sm-0" id="hiredate" size=10 placeholder="Hiredate" value.bind="employee.attributes.hiredate">
+            </div>
+          </td>
+          <td>
+            <div if.bind="(employee_edit_id!=employee.id)" style="width:5rem;">${employee.attributes.sal}</div>
+              <div if.bind="(employee_edit_id===employee.id)" style="width:5rem;">
+              <input type="text" class="form-control-sm mb-2 mr-sm-2 mb-sm-0" id="salary" size=6 placeholder="Salary" value.bind="employee.attributes.sal">
+            </div>
+          </td>
+
+          <td>
+            <div class="toolbar">
+              <div if.bind="(employee_edit_id!=employee.id)">
+                <span click.delegate="editEmployee(employee.id, employee.relationships.department.data.id)">
+                  <i class="far fa-pencil"></i>
+                </span>
+                <span click.delegate="deleteEmployee(employee.id, employee.relationships.department.data.id)">
+                  <i class="far fa-trash"></i>
+                </span>
+              </div>
+
+              <div if.bind="(employee_edit_id===employee.id)">
+                <span click.delegate="saveEmployee(employee)">
+                  <i class="far fa-save"></i>
+                </span>
+                <span click.delegate="uneditEmployee()">
+                  <i class="far fa-times"></i>
+                </span>
+              </div>
+            </div>
+          </td>
+        <tr>
+      </tbody>
+    </table>
+  </form>
+</template>
