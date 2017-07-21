@@ -19,7 +19,12 @@ export class Departments {
             { route: '', moduleId: './no-selection' },
             { route: ':id', moduleId: './department', name: 'department'
               //, activationStrategy: activationStrategy.invokeLifecycle
-            }
+            },
+            { route: 'new', moduleId: './new', nav: true, title: 'Add Department', settings: { icon:'plus', 'title':'Add' } },
+            { route: 'edit', moduleId: 'notebooks/index', nav: true, title: 'Notebooks', href: '#/departments/:id', settings: { icon:'pencil' } },
+            { route: 'delete', moduleId: 'notebooks/index', nav: true, title: 'Notebooks', settings: { icon:'trash' } },
+            { route: 'settings',  moduleId: 'settings/index', nav: true, title: 'Settings', settings: { icon:'cog' } }
+
         ]);
 
         this.deptRouter = router;

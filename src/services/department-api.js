@@ -21,29 +21,61 @@ export class DepartmentApi {
   }
 
   getDepartments() {
-      return this.http.fetch('departments')
-          .then(response => response.json())
-          .then(departments => {
-              //console.log(departments.data);
-              return departments.data;
-          });
+    return this.http.fetch('departments')
+        .then(response => response.json())
+        .then(departments => {
+            //console.log(departments.data);
+            return departments.data;
+        });
   }
 
-    getDepartment(departmentID) {
-      return this.http.fetch(`departments/${departmentID}`)
-          .then(response => response.json())
-          .then(department => {
-              return department.data;
-          });
+  getDepartment(departmentID) {
+    return this.http.fetch(`departments/${departmentID}`)
+        .then(response => response.json())
+        .then(department => {
+            return department.data;
+        });
   }
+
+  saveDepartment(department)  {
+    let dept_jsonapi = {"data":{
+        "id":null, 
+        "attributes":department
+      }};
+
+    let http_method = "POST";
+    let http_url = 'departments';
+     
+    if (department.id) {
+      http_method = "PATCH";
+      http_url    = `${http_url}/${department.id}`;
+      dept_jsonapi = {"data":{
+        "id":department.id, 
+        "attributes":department.attributes}
+        //"type":"departments"
+      };
+    };
+    
+    console.log(JSON.stringify(department));
+
+    return this.http.fetch(http_url, {
+          method: http_method,
+          body: JSON.stringify(dept_jsonapi)
+        })
+        .then(response => { 
+          response.json();
+          console.log(response);
+        });
+    };
+
 
   getEmployees(departmentID) {
-      return this.http.fetch(`departments/${departmentID}/employees`)
-          .then(response => response.json())
-          .then(employees => {
-              //console.log(departments.data);
-              return employees.data;
-          });
+    return this.http.fetch(`departments/${departmentID}/employees`)
+        .then(response => response.json())
+        .then(employees => {
+            //console.log(departments.data);
+            return employees.data;
+        });
   }
 
   saveEmployee(employee)  {
