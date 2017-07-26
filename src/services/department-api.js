@@ -62,9 +62,10 @@ export class DepartmentApi {
           method: http_method,
           body: JSON.stringify(dept_jsonapi)
         })
-        .then(response => { 
-          response.json();
-          console.log(response);
+        .then(response => response.json())
+          .then(department => {
+            console.log(department.data);
+            return department.data;
         });
     };
 

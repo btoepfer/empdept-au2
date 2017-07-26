@@ -1,18 +1,21 @@
 import { bindable, inject } from 'aurelia-framework';
+import {EventAggregator} from 'aurelia-event-aggregator';
 import { DepartmentApi } from '../services/department-api';
 
-@inject(DepartmentApi)
+@inject(DepartmentApi, EventAggregator)
 export class New {
-  constructor(departmentApi) {
-        this.departmentApi = departmentApi;
-    }
+  constructor(departmentApi, ea) {
+    this.departmentApi = departmentApi;
+    this.ea = ea;
+    this.department = {};
+  }
 
-  @bindable department;
 
   addDepartment() {
     this.departmentApi.saveDepartment(this.department)
-      .then(response =>  this.departmentApi.getDepartments().then(departments => this.filteredDepartments = departments)
-      )
+      .then(department => this.department = department)
+        .then(ea => this.ea.publish('department:created', this.department))
+        .then(e => this.department = {})
       .catch(err => alert(err.statusText));
   }
 
