@@ -69,6 +69,19 @@ export class DepartmentApi {
         });
     };
 
+  deleteDepartment(id) {
+    const dept_jsonapi = {"data":{
+      "id":id 
+      //"relationships":{"department":{"data":{"type":"departments", "id":employee.department_id}}}, 
+      //"type":"employees"
+    }};
+    return this.http.fetch(`departments/${id}`, {
+        method: "DELETE",
+      })
+      .then(response => { 
+        console.log(response);
+      });
+    }
 
   getEmployees(departmentID) {
     return this.http.fetch(`departments/${departmentID}/employees`)

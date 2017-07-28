@@ -1,33 +1,4 @@
 <template>
-  <form class="form-inline" submit.trigger="addEmployee()">
-    <label class="sr-only" for="empno">#</label> 
-    <input type="text" class="form-control-sm mb-2 mr-sm-2 mb-sm-0" id="empno" size=5 placeholder="#" value.bind="employee.empno" required="true">
-
-    <label class="sr-only" for="ename">Name</label>
-    <input type="text" class="form-control-sm mb-2 mr-sm-2 mb-sm-0" id="ename" size=20 placeholder="Name" value.bind="employee.ename" required="true">
-
-    <label class="sr-only" for="job">Job</label> 
-    <select class="form-control-sm mb-2 mr-sm-2 mb-sm-0" value.bind="employee.job">
-      <option>Job...</option>
-      <option value="MANAGER">MANAGER</option>
-      <option value="CLERK">CLERK</option>
-      <option value="SALESMEN">SALESMEN</option>
-      <option value="ANALYST">ANALYST</option>
-      <option value="PRESIDENT">PRESIDENT</option>
-    </select>
-
-
-    <label class="sr-only" for="hiredate">Hiredate</label> 
-    <input type="text" class="form-control-sm mb-2 mr-sm-2 mb-sm-0" id="hiredate" size=12 placeholder="Hiredate" value.bind="employee.hiredate">
-
-    <label class="sr-only" for="salary">Salary</label>
-    <input type="text" class="form-control-sm mb-2 mr-sm-2 mb-sm-0" id="salary" size=5 placeholder="Salary" value.bind="employee.sal">
-
-    <button type="submit" class="btn-sm btn-primary">
-      Add&nbsp;<i class="fa fa-plus"></i>
-    </button>
-  </form>
-
   <form class="form-inline">
     <table class="table table-sm table-hover">
       <thead>
@@ -78,10 +49,10 @@
           <td>
             <div class="toolbar">
               <div if.bind="(employee_edit_id!=employee.id)">
-                <span click.delegate="editEmployee(employee.id, employee.relationships.department.data.id)">
+                <span click.delegate="editEmployee(employee)">
                   <i class="far fa-pencil"></i>
                 </span>
-                <span click.delegate="deleteEmployee(employee.id, employee.relationships.department.data.id)">
+                <span click.delegate="deleteEmployee(employee)">
                   <i class="far fa-trash"></i>
                 </span>
               </div>

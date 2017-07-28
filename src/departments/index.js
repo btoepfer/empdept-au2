@@ -25,8 +25,7 @@ export class Departments {
         //, activationStrategy: activationStrategy.invokeLifecycle
       },
       { route: 'new', moduleId: './new', nav: true, title: 'Add Department', settings: { icon:'plus', 'title':'Add' } },
-      { route: 'edit', moduleId: 'notebooks/index', nav: true, title: 'Notebooks', href: '#/departments/:id', settings: { icon:'pencil' } },
-      { route: 'delete', moduleId: 'notebooks/index', nav: true, title: 'Notebooks', settings: { icon:'trash' } },
+      { route: 'employees/new', moduleId: './employee-new', nav: true, title: 'Add Employee', settings: { icon:'user', 'title':'Add' } },
       { route: 'settings',  moduleId: 'settings/index', nav: true, title: 'Settings', settings: { icon:'cog' } }
     ]);
 
@@ -75,14 +74,6 @@ export class Departments {
   }
 
 
-
-  editDepartment(id) {
-    alert(`Department: ${id} edited.`);
-  }
-
-  deleteDepartment(id) {
-    alert(`Department: ${id} deleted.`);
-  }
 
   
   created() {

@@ -1,19 +1,20 @@
+
+import {Router, Redirect} from 'aurelia-router';
 import { bindable, inject } from 'aurelia-framework';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import { DepartmentApi } from '../services/department-api';
 
-@inject(DepartmentApi, EventAggregator)
+@inject(DepartmentApi, EventAggregator, Router)
 export class Department {
 
-  constructor(departmentApi,ea, dname, loc) {
+  constructor(departmentApi, ea, router) {
     this.department = {};
     this.departmentApi = departmentApi;
-    this.dname = dname;
-    this.loc = loc;
     this.id = 0;
     this.employee = {};
     this.isEditing = false;
     this.ea = ea;
+    this.router = router;
     this.originalDepartment = "";
     
   }
@@ -52,7 +53,8 @@ export class Department {
   deleteDepartment(id) {
     if (confirm("Do you really want to delete this Department?")) {
       this.departmentApi.deleteDepartment(id)
-        .then(response => {this.department={};})
+        .then(response => 
+           this.router.navigateToRoute('departments', { }, { replace: true, trigger: true }))
         .catch(err => alert(err.statusText));
     }
   }

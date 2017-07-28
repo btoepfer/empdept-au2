@@ -9,24 +9,28 @@ export class EmployeeList {
     this.departmentApi = departmentApi;
     this.employees = [];
     this.employee_edit_id = null;
+    this.originalEmployee = "";
   }
 
   @bindable employees;
   @bindable department;
 
 
-  editEmployee(id) {
-    this.employee_edit_id = id;
-
+  editEmployee(employee) {
+    this.employee_edit_id = employee.id;
+    this.originalEmployee = JSON.parse(JSON.stringify(employee));
+     $("#ename").focus();
   }
 
   uneditEmployee() {
     this.employee_edit_id = 0;
+    //ToDo: Originalwerte wieder herstellen, falls geändert
   }
 
-  deleteEmployee(id, department_id) {
+  deleteEmployee(employee) {
+    const department_id = employee.relationships.department.data.id;
     if (confirm("Do you really want to delete this employee?")) {
-      this.departmentApi.deleteEmployee(id)
+      this.departmentApi.deleteEmployee(employee.id)
         .then(response => this.departmentApi.getEmployees(department_id)
           .then(employees => this.employees = employees))
         .catch(err => alert(err.statusText));
