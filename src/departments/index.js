@@ -11,11 +11,11 @@ export class Departments {
     this.departments = [];
     this.filteredDepartments = [];
     this.filterTerm = "";
-    this.newDepartment = "";
     this.departmentApi = departmentApi;
     this.ea = ea;
 
     this.createdSubscription = this.ea.subscribe('department:created', department => this.departmentCreated(department));
+    this.updatedSubscription = this.ea.subscribe('department:updated', department => this.departmentUpdated(department));
   }
 
   configureRouter(config, router) {
@@ -35,12 +35,23 @@ export class Departments {
 
   activate() {
       console.log("View activated");
-      this.departmentApi.getDepartments().then(departments => this.filteredDepartments = departments);
-      //console.log(this.deptRouter);
+      this.departmentApi.getDepartments()
+        .then(departments => this.filteredDepartments = departments)
+        .then(()=>{console.log(this.filteredDepartments)});
   }
 
   departmentCreated(department) {
     this.filteredDepartments.push(department);
+    //this.departmentApi.getDepartments().then(departments => this.filteredDepartments = departments);
+  }
+
+  departmentUpdated(department) {
+    let i = this.filteredDepartments.findIndex(d => {
+      return d.id === department.id
+    });
+    //this.filteredDepartments[i] = JSON.parse(JSON.stringify(department));
+    this.filteredDepartments[i].attributes.dname = department.attributes.dname;
+    this.filteredDepartments[i].attributes.loc = department.attributes.loc;
     //this.departmentApi.getDepartments().then(departments => this.filteredDepartments = departments);
   }
 
@@ -49,7 +60,7 @@ export class Departments {
     if (this.departments.length === 0)
         this.departments = this.filteredDepartments;
 
-    this.filteredDepartments = this.departments.filter(function(department) {
+    this.filteredDepartments = this.departments.filter(department => {
         return department.attributes.dname.toLowerCase().indexOf(filterTerm) !== -1;
     });
     return true;
@@ -63,14 +74,7 @@ export class Departments {
     return true;
   }
 
-  addDepartment() {
-    if (this.newDepartment) {
-        let newDept = new Department(this.departmentApi, this.newDepartment);
-        this.departments.push(newDept);
-        this.filteredDepartments.push(newDept);
-        this.newDepartment = "";
-    }
-  }
+
 
   editDepartment(id) {
     alert(`Department: ${id} edited.`);
@@ -94,7 +98,8 @@ export class Departments {
   }
 
   detached() {
-    createdSubscription.dispose();
+    this.createdSubscription.dispose();
+    this.updatedSubscription.dispose();
   }
 
   unbind() {

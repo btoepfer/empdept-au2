@@ -17,6 +17,10 @@ export class New {
         .then(ea => this.ea.publish('department:created', this.department))
         .then(e => this.department = {})
       .catch(err => alert(err.statusText));
+     $("#dname").focus();
   }
 
+  attached() {
+    $("#dname").focus();
+  }
 }

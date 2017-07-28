@@ -3,8 +3,39 @@
 
   <section class="au-animate">
     <div class="row">
-      <h4>${department.attributes.dname}
-        <small>located in ${department.attributes.loc}</small>
+      <h4>
+        <form class="form-inline">
+          <span if.bind="!isEditing">${department.attributes.dname}</span>
+          <span if.bind="isEditing">
+            <input type="text" class="form-control" id="dname" size=15 placeholder="Departmentname" value.bind="department.attributes.dname" required="true">
+          </span>
+          <small>
+            &nbsp;located in&nbsp;
+            <span if.bind="!isEditing">${department.attributes.loc}</span>
+            <span if.bind="isEditing">
+              <input type="text" class="form-control" id="dname" size=15 placeholder="Location" value.bind="department.attributes.loc" required="true">
+            </span>
+            <div class="toolbar">
+              <div if.bind="!isEditing">
+                <span click.delegate="editDepartment(department.id)">
+                  <i class="far fa-pencil"></i>
+                </span>
+                <span click.delegate="deleteDepartment(department.id)">
+                  <i class="far fa-trash"></i>
+                </span>
+              </div>
+
+              <div if.bind="isEditing">
+                <span click.delegate="saveDepartment(department)">
+                  <i class="far fa-save"></i>
+                </span>
+                <span click.delegate="uneditDepartment()">
+                  <i class="far fa-times"></i>
+                </span>
+              </div>
+            </div>
+          </small>
+        </form>
       </h4>
     </div>
   

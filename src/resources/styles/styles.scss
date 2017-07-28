@@ -18,45 +18,6 @@ main {
   flex-direction: row;
 }
 
-nav.main {
-  background: $navbar-inverse-bg;
-  border-right: 1px solid gray;
-  color: $navbar-inverse-color;
-}
-
-nav > ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-nav.main > ul > li > a {
-  padding: 1rem;
-  display: block;
-  color: $navbar-inverse-color;
-  text-align: center;
-  &:hover {
-    text-decoration: none;
-    color: #fff;
-  }
-}
-
-nav.main > ul > li > a > i {
-  font-size: 22px !important;
-}
-nav.main > ul > li > a > span {
-  font-size: 12px !important;
-}
-
-nav.main > ul > li.active > a > i {
-  text-shadow: 0 0 20px white;
-}
-
-nav.main > ul > li:last-child {
-  position: fixed;
-  bottom: 1rem;
-}
-
 main > router-view {
   flex: 1;
   border-top: 1px solid rgba(128, 128, 128, 0.25);
