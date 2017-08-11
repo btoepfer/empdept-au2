@@ -18,7 +18,7 @@ export class App {
           moduleId: './departments/index',
           nav: true,
           title: 'Departments',
-          settings: { icon:'industry-alt' }
+          settings: { icon:'users' }
         },
         ]);
 

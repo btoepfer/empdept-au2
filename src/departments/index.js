@@ -43,16 +43,14 @@ export class Departments {
         name: 'employee-new', 
         nav: true, 
         title: 'Add Employee', 
-        settings: { icon:'user', 'title':'Add' } 
+        settings: { icon:'user-plus', 'title':'Add' } 
       },
       { 
         route: ':id/employees/new', 
         href: '#/departments/:id/employees/new', 
         name: 'employee-new-for-department', 
         moduleId: './employee-new', 
-        nav: false,
-        title: 'Add Employee', 
-        settings: { icon:'user', 'title':'Add' } 
+        nav: false
       },
       { 
         route: 'settings',  
