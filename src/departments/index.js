@@ -31,6 +31,7 @@ export class Departments {
       },
       { 
         route: 'new', 
+        name:  'new',
         moduleId: './new', 
         nav: true, 
         title: 'Add Department', 
