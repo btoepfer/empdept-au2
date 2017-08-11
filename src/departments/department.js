@@ -8,10 +8,10 @@ import { DepartmentApi } from '../services/department-api';
 export class Department {
 
   constructor(departmentApi, ea, router) {
+    this.data = {};
     this.department = {};
+    this.employees = [];
     this.departmentApi = departmentApi;
-    this.id = 0;
-    this.employee = {};
     this.isEditing = false;
     this.ea = ea;
     this.router = router;
@@ -29,17 +29,21 @@ export class Department {
 
   uneditDepartment() {
     this.isEditing = false;
-
     this.department = JSON.parse(JSON.stringify(this.originalDepartment));
   }
 
   activate(params) {
     this.uneditDepartment();
     // Get Department
-    this.departmentApi.getDepartment(params.id).then(department => this.department = department);
+    this.departmentApi.getDepartment(params.id)
+      .then(department => this.department = department)
+      .then(employees => this.departmentApi.getEmployees(params.id)
+        .then(employees => this.employees = employees)
+          .then(() => {this.data.department=this.department;
+                   this.data.employees=this.employees;}));
 
     // Get Employees of selected Department
-    this.departmentApi.getEmployees(params.id).then(employees => this.employees = employees);
+    //this.departmentApi.getEmployees(params.id).then(employees => this.employees = employees);
   }
 
  saveDepartment() {

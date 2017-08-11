@@ -1,20 +1,14 @@
 <template>
   <require from="../resources/value-converters/to-lower"></require>
+  <require from="../navigation/nav-bar-left.html"></require>
 
 
   <main class="au-animate">
-    <nav class="main">
-      <ul>
-        <li repeat.for="item of deptRouter.navigation" class="${item.isActive ? 'active' : ''}">
-          <a href.bind="item.href" title.bind="item.title">
-            <i class="far fa-${item.settings.icon}"></i>
-            <br>
-            <span>${item.settings.title}</span>
-          </a>
-        </li>
-      </ul>
-    </nav>
+    <!-- Rechter Navigationsbereich --> 
+    <nav-bar-left router.bind="deptRouter"></nav-bar-left>
+
     <section>
+      <!-- Anzeige der Departments als Liste inkl. Filter -->
       <div class="row">
         <div class="col-md-4 justify-content-start">
           <form class="mt-4 form-inline" keypress.trigger="filterDepartments(filterTerm)" submit.trigger="clearFilterTerm()">
@@ -31,23 +25,28 @@
         <div class="col-md-4 justify-content-start">
           <div class="list-group" >
             <div>
+              <!-- Anzeige aller Departments mit einem Link auf die Detailanzeige -->
               <a repeat.for="department of filteredDepartments"
                 route-href="route: department; params.bind: {id:department.id}" 
-                class="list-group-item list-group-item-action flex-column align-items-start ${(deptRouter.currentInstruction.params.id === department.id) ? 'active' : ''}"
-              >
-                  <div class="d-flex w-100 justify-content-between">
-                      <h5 class="mb-1">${department.attributes.dname}</h5>
-                  </div>
-                  <p class="mt-1 mb-1"><small>${department.attributes.loc}</small></p>
+                class="list-group-item list-group-item-action flex-column align-items-start 
+                       ${(deptRouter.currentInstruction.params.id === department.id) ? 'active' : ''}">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">${department.attributes.dname}</h5>
+                </div>
+                <p class="mt-1 mb-1"><small>${department.attributes.loc}</small></p>
               </a>
             </div>
           </div>
         </div>
+
+        <!-- Detailanzeige des selektierten Departments bzw.
+             für die Editiermasken
+             Dieser Bereich wird durch den dept-router (aus index.js) gefüllt -->
         <div class="col-md-8 justify-content-start">
           <router-view></router-view>
         </div>
-      </section>
 
+      </section>
       
     </div>
   </main>

@@ -2,7 +2,6 @@ import {activationStrategy} from 'aurelia-router';
 import { bindable, inject } from 'aurelia-framework';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import { DepartmentApi } from '../services/department-api';
-import { Department } from './department';
 
 @inject(DepartmentApi, EventAggregator)
 export class Departments {
@@ -20,18 +19,53 @@ export class Departments {
 
   configureRouter(config, router) {
     config.map([
-      { route: '', moduleId: './no-selection' },
-      { route: ':id', moduleId: './department', name: 'department'
-        //, activationStrategy: activationStrategy.invokeLifecycle
+      { 
+        route: '', 
+        moduleId: './no-selection' 
       },
-      { route: 'new', moduleId: './new', nav: true, title: 'Add Department', settings: { icon:'plus', 'title':'Add' } },
-      { route: 'employees/new', moduleId: './employee-new', nav: true, title: 'Add Employee', settings: { icon:'user', 'title':'Add' } },
-      { route: 'settings',  moduleId: 'settings/index', nav: true, title: 'Settings', settings: { icon:'cog' } }
+      { 
+        route: ':id', 
+        moduleId: './department', 
+        name: 'department',
+        activationStrategy: activationStrategy.invokeLifecycle
+      },
+      { 
+        route: 'new', 
+        moduleId: './new', 
+        nav: true, 
+        title: 'Add Department', 
+        settings: { icon:'plus', 'title':'Add' } 
+      },
+      {
+        route: 'employees/new', 
+        moduleId: './employee-new', 
+        name: 'employee-new', 
+        nav: true, 
+        title: 'Add Employee', 
+        settings: { icon:'user', 'title':'Add' } 
+      },
+      { 
+        route: ':id/employees/new', 
+        href: '#/departments/:id/employees/new', 
+        name: 'employee-new-for-department', 
+        moduleId: './employee-new', 
+        nav: false,
+        title: 'Add Employee', 
+        settings: { icon:'user', 'title':'Add' } 
+      },
+      { 
+        route: 'settings',  
+        moduleId: 'settings/index', 
+        nav: true, 
+        title: 'Settings', 
+        settings: { icon:'cog' }
+      }
     ]);
 
     this.deptRouter = router;
   }
 
+  // Departments werden gelesen
   activate() {
       console.log("View activated");
       this.departmentApi.getDepartments()
@@ -39,23 +73,26 @@ export class Departments {
         .then(()=>{console.log(this.filteredDepartments)});
   }
 
+  // Nach dem Erstellen eines neuen Departments wird über den
+  // EventAggregator getriggerd, diese Funktion aufgerufen
   departmentCreated(department) {
     this.filteredDepartments.push(department);
     //this.departmentApi.getDepartments().then(departments => this.filteredDepartments = departments);
   }
 
+  // Nach dem Ändern eines neuen Departments wird über den
+  // EventAggregator getriggerd, diese Funktion aufgerufen
   departmentUpdated(department) {
     let i = this.filteredDepartments.findIndex(d => {
       return d.id === department.id
     });
-    //this.filteredDepartments[i] = JSON.parse(JSON.stringify(department));
     this.filteredDepartments[i].attributes.dname = department.attributes.dname;
     this.filteredDepartments[i].attributes.loc = department.attributes.loc;
-    //this.departmentApi.getDepartments().then(departments => this.filteredDepartments = departments);
   }
 
+  // Es wird in allen Departments gesucht, dazu werden diese beim ersten Aufruf
+  // alle übertragen
   filterDepartments(filterTerm) {
-
     if (this.departments.length === 0)
         this.departments = this.filteredDepartments;
 

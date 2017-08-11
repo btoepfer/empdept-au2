@@ -3,18 +3,18 @@ import { DepartmentApi } from '../services/department-api';
 
 @inject(DepartmentApi)
 export class EmployeeList {
-
   constructor(departmentApi) {
-    this.department = "";
     this.departmentApi = departmentApi;
+    this.department = {};
     this.employees = [];
     this.employee_edit_id = null;
     this.originalEmployee = "";
   }
 
-  @bindable employees;
-  @bindable department;
-
+  activate(model) {
+    this.department = model.department;
+    this.employees = model.employees;
+  }
 
   editEmployee(employee) {
     this.employee_edit_id = employee.id;

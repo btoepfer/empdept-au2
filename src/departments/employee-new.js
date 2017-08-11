@@ -1,4 +1,19 @@
+import { bindable, inject } from 'aurelia-framework';
+import { DepartmentApi } from '../services/department-api';
+
+@inject(DepartmentApi)
 export class EmployeeNew {
+  constructor(departmentApi) {
+    this.departmentApi = departmentApi;
+    this.employee = {};
+    this.department_id = 0;
+  }
+
+  activate(params) {
+    this.department_id = params.id;
+    console.log(`ID: ${params.id}`);
+  }
+
   attached() {
     $("#empno").focus();
   }

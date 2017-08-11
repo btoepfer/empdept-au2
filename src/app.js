@@ -9,7 +9,8 @@ export class App {
           name: 'welcome',
           moduleId: './welcome/welcome',
           nav: true,
-          title: 'Welcome'
+          title: 'Welcome',
+          settings: { icon:'flag' }
         },
         {
           route: 'departments',
@@ -17,7 +18,7 @@ export class App {
           moduleId: './departments/index',
           nav: true,
           title: 'Departments',
-          settings: { icon:'file-text' }
+          settings: { icon:'industry-alt' }
         },
         ]);
 

@@ -11,8 +11,12 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="nav navbar-nav mr-auto">
+        <!-- Alle Navigationseinträge aus dem Router werden angezeigt, bei denen nav=true -->
         <li repeat.for="row of router.navigation" class="${row.isActive ? 'active' : ''}">
-          <a class="nav-link" href.bind="row.href">${row.title}</a>
+          <a class="nav-link" href.bind="row.href">
+            <i class="far fa-${row.settings.icon}"></i>
+            ${row.title}
+          </a>
         </li>
       </ul>
 

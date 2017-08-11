@@ -1,11 +1,9 @@
 <template>
-  <require from="./employee-list"></require>
-
   <section class="au-animate">
     <div class="row">
       <h4>
         <form class="form-inline">
-          <span if.bind="!isEditing">${department.attributes.dname}</span>
+          <span if.bind="!isEditing">${department.attributes.dname}(${data.department.id})</span>
           <span if.bind="isEditing">
             <input type="text" class="form-control" id="dname" size=15 placeholder="Departmentname" value.bind="department.attributes.dname" required="true">
           </span>
@@ -41,7 +39,10 @@
   
 
     <div class="row  mt-2">
-      <employee-list employees.bind="employees" department.bind="department"></employee-list>
+      <compose view-model="./employee-list" 
+               model.bind="data"
+               view="${(employees.length>0) ? './employee-list.html' : './employee-list-empty.html'}">
+      </compose>
     </div>
   </section>
 </template>
