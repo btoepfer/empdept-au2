@@ -21,6 +21,11 @@
                 <span click.delegate="deleteDepartment(department.id)">
                   <i class="far fa-trash"></i>
                 </span>
+                <span>
+                  <a href="#/departments/${department.id}/employees/new">
+                    <i class="far fa-user-plus"></i>
+                  </a>
+                </span>
               </div>
 
               <div if.bind="isEditing">
@@ -32,6 +37,8 @@
                 </span>
               </div>
             </div>
+
+            
           </small>
         </form>
       </h4>
@@ -39,7 +46,7 @@
   
 
     <div class="row  mt-2">
-      <compose view-model="./employee-list" 
+      <compose view-model="../employees/employee-list" 
                model.bind="data"
                view="${(employees.length>0) ? '../employees/employee-list.html' : '../employees/employee-list-empty.html'}">
       </compose>

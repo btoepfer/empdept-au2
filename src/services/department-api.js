@@ -120,10 +120,10 @@ export class DepartmentApi {
           method: http_method,
           body: JSON.stringify(emp_jsonapi)
         })
-        .then(response => { 
-          response.json();
-          console.log(response);
-        });
+        .then(response => response.json())
+          .then(employee => {
+            return employee.data
+          });
     };
 
   deleteEmployee(id) {

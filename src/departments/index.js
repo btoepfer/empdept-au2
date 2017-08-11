@@ -18,6 +18,7 @@ export class Departments {
   }
 
   configureRouter(config, router) {
+
     config.map([
       { 
         route: '', 
@@ -25,8 +26,8 @@ export class Departments {
       },
       { 
         route: ':id', 
-        moduleId: './department', 
         name: 'department',
+        moduleId: './department', 
         activationStrategy: activationStrategy.invokeLifecycle
       },
       { 
@@ -39,16 +40,16 @@ export class Departments {
       },
       {
         route: 'employees/new', 
-        moduleId: '../employees/employee-new', 
         name: 'employee-new', 
+        moduleId: '../employees/employee-new', 
         nav: true, 
         title: 'Add Employee', 
-        settings: { icon:'user-plus', 'title':'Add' } 
+        settings: { icon:'user-plus', 'title':'Add'} 
       },
       { 
         route: ':id/employees/new', 
-        href: '#/departments/:id/employees/new', 
         name: 'employee-new-for-department', 
+        href: '#/departments/:id/employees/new', 
         moduleId: '../employees/employee-new', 
         nav: false
       },

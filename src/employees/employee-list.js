@@ -46,10 +46,7 @@ export class EmployeeList {
       )
       .catch(err => alert(err.statusText));
   }
-  
-  clearEmployee() {
-    return {id:null, department_id:null, empno: null, ename: null, job: null, sal:null, hiredate:null};
-  }
+ 
 
   
 

@@ -39,7 +39,7 @@
 
 .toolbar {
     display: inline-block;
-    span {
+    span, a {
         color: $gray;
         cursor: pointer;
         margin: 0rem 0.25rem;
