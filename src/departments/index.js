@@ -39,7 +39,7 @@ export class Departments {
       },
       {
         route: 'employees/new', 
-        moduleId: './employee-new', 
+        moduleId: '../employees/employee-new', 
         name: 'employee-new', 
         nav: true, 
         title: 'Add Employee', 
@@ -49,7 +49,7 @@ export class Departments {
         route: ':id/employees/new', 
         href: '#/departments/:id/employees/new', 
         name: 'employee-new-for-department', 
-        moduleId: './employee-new', 
+        moduleId: '../employees/employee-new', 
         nav: false
       },
       { 
