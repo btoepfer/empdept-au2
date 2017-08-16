@@ -27,6 +27,7 @@ export class EmployeeNew {
   
   addEmployee() {
     //alert(`Add Employee: ${this.department.id}.`);
+
     this.employee.department_id = this.department_id;
     let emp = this.employee;
 
