@@ -28,7 +28,7 @@ export class Departments {
         route: ':id', 
         name: 'department',
         moduleId: './department', 
-        activationStrategy: activationStrategy.invokeLifecycle
+        activationStrategy: activationStrategy.replace
       },
       { 
         route: 'new', 

@@ -4,12 +4,15 @@ import {inject, NewInstance} from 'aurelia-dependency-injection';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import {DepartmentApi } from '../services/department-api';
 import {Department } from '../models/department';
-import {ValidationRules, ValidationController, validateTrigger} from 'aurelia-validation';
+import {ValidationController, validateTrigger} from 'aurelia-validation';
 import {SimpleValidationRenderer} from "../resources/validation/simple-validation-renderer";
 
 
 @inject (Router, NewInstance.of(ValidationController), DepartmentApi, EventAggregator)
-export class New {
+export class DepartmentNew {
+
+  @bindable
+    department;
 
   constructor(router, validationController, departmentApi, ea) {
     this.router = router;
@@ -18,31 +21,14 @@ export class New {
     this.department = new Department();
     this.validationController = validationController;
     this.validationController.addRenderer(new SimpleValidationRenderer());
-    // manual triggering of validation
-    this.validationController.validateTrigger = validateTrigger.changeOrBlur;
-    
-    //this.validationController.subscribe(event => this.validateForm());
-  }
-
-
-  activate() {
-    ValidationRules
-      .ensure("dname")
-        .displayName("Department Name")
-        .required()
-      .ensure("loc")
-        .displayName("Location")
-        .required()
-      .on(this.department.attributes);
+    this.validationController.validateTrigger = validateTrigger.change;
   }
 
 
   addDepartment() {
-    let canSave = false;
     this.validationController.validate()
-      .then(result => canSave=result.valid)
-      .then(() => {     
-        if (canSave) {
+      .then(result => { 
+        if (result.valid) {
           this.departmentApi.saveDepartment(this.department)
             .then(department => this.department = department)
               .then(ea => this.ea.publish('department:created', this.department))
@@ -50,11 +36,10 @@ export class New {
             .catch(err => alert(err.statusText));
           this.validationController.reset()}
         });
-     
-    console.log(this.department);
   }
 
   attached() {
     $("#dname").focus();
   }
+
 }
