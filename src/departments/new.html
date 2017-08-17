@@ -4,12 +4,18 @@
     <form  submit.trigger="addDepartment()">
       <div class="form-group">
         <label for="dname">Name</label> 
-        <input type="text" class="form-control" id="dname" size=20 placeholder="Name" value.bind="department.dname" required="true">
+        <input type="text" class="form-control" id="dname" size=20 
+               placeholder="Name" 
+               value.bind="department.attributes.dname & validate" >
+        <span class="error"></span>
       </div>
 
       <div class="form-group">
         <label for="loc">Location</label>
-        <input type="text" class="form-control" id="loc" size=20 placeholder="Location" value.bind="department.loc" required="true">
+        <input type="text" class="form-control" id="loc" size=20 
+               placeholder="Location" 
+               value.bind="department.attributes.loc & validate" >
+        <span class="error"></span>
       </div>
 
       <button type="submit" class="btn btn-primary">

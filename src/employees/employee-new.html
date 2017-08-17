@@ -4,23 +4,27 @@
     <div class="form-group">
       <label for="department_id">Department (${department_id})</label>
       <select value.bind="department_id">
-          <option value="">Please select a Department</option>
-          <option repeat.for="department of departmentList" model.bind="department.id">${department.attributes.dname}</option>
-        </select>
+        <option value="">Please select a Department</option>
+        <option repeat.for="department of departmentList" model.bind="department.id">${department.attributes.dname}</option>
+      </select>
+      <span class="error"></span>
     </div>
     
     <div class="form-group">
       <label for="empno">No.</label>
-      <input type="text" class="form-control" id="empno" size=5 placeholder="#" value.bind="employee.empno" required="true">
+      <input type="text" class="form-control" id="empno" size=5 placeholder="#" 
+             value.bind="employee.attributes.empno & validate">
+      <span class="error"></span>
     </div>
     <div class="form-group">
       <label for="ename">Name</label>
-      <input type="text" class="form-control" id="ename" size=20 placeholder="Name" value.bind="employee.ename"
-        required="true">
+      <input type="text" class="form-control" id="ename" size=20 placeholder="Name" 
+             value.bind="employee.attributes.ename & validate">
+        <span class="error"></span>
     </div>
     <div class="form-group">
       <label for="job">Job</label>
-      <select class="form-control" value.bind="employee.job">
+      <select class="form-control" value.bind="employee.attributes.job & validate">
        <option>Job...</option>
         <option value="MANAGER">MANAGER</option>
         <option value="CLERK">CLERK</option>
@@ -28,14 +32,19 @@
         <option value="ANALYST">ANALYST</option>
         <option value="PRESIDENT">PRESIDENT</option>
       </select>
+      <span class="error"></span>
     </div>
     <div class="form-group">
       <label for="hiredate">Hiredate</label>
-      <input type="text" class="form-control" id="hiredate" size=12 placeholder="Hiredate" value.bind="employee.hiredate">
+      <input type="text" class="form-control" id="hiredate" size=12 placeholder="Hiredate" 
+             value.bind="employee.attributes.hiredate & validate">
+      <span class="error"></span>
     </div>
     <div class="form-group">
       <label for="salary">Salary</label>
-      <input type="text" class="form-control" id="salary" size=5 placeholder="Salary" value.bind="employee.sal">
+      <input type="text" class="form-control" id="salary" size=5 placeholder="Salary" 
+             value.bind="employee.attributes.sal & validate">
+      <span class="error"></span>
     </div>
     <button type="submit" class="btn btn-primary">
       Add&nbsp;<i class="fa fa-plus"></i>

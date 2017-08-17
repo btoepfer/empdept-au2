@@ -11,7 +11,8 @@ export function configure(aurelia) {
     aurelia.use
         .standardConfiguration()
         .feature('resources')
-        .plugin('aurelia-animator-css');
+        .plugin('aurelia-animator-css')
+        .plugin('aurelia-validation');
 
     if (environment.debug) {
         aurelia.use.developmentLogging();

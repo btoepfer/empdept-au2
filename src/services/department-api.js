@@ -40,7 +40,7 @@ export class DepartmentApi {
   saveDepartment(department)  {
     let dept_jsonapi = {"data":{
         "id":null, 
-        "attributes":department
+        "attributes":department.attributes
       }};
 
     let http_method = "POST";
@@ -94,10 +94,9 @@ export class DepartmentApi {
 
   saveEmployee(employee)  {
     let emp_jsonapi = {"data":{
-        "id":employee.id, 
-        "attributes":employee,
-        "relationships":{"department":{"data":{"type":"departments", "id":employee.department_id}}}
-        //"type":"employees"
+      "id":null, 
+      "attributes":employee.attributes,
+      "relationships":employee.relationships
       }};
 
     let http_method = "POST";

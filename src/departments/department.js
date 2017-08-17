@@ -40,7 +40,10 @@ export class Department {
       .then(employees => this.departmentApi.getEmployees(params.id)
         .then(employees => this.employees = employees)
           .then(() => {this.data.department=this.department;
-                   this.data.employees=this.employees;}));
+                   this.data.employees=this.employees
+                  }
+                )
+            );
 
     // Get Employees of selected Department
     //this.departmentApi.getEmployees(params.id).then(employees => this.employees = employees);
