@@ -8,12 +8,12 @@ export class Department {
 
   constructor() {
     ValidationRules
-    .ensure("dname")
-      .displayName("Department Name")
-      .required()
-    .ensure("loc")
-      .displayName("Location")
-      .required()
-    .on(this.attributes);
+      .ensure("dname")
+        .displayName("Department Name")
+        .required()
+      .ensure("loc")
+        .displayName("Location")
+        .required()
+      .on(this.attributes);
   }
 }
