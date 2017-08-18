@@ -20,11 +20,13 @@
         </li>
       </ul>
 
-      <ul class="nav navbar-nav navbar-right">
-        <li class="loader" >
-          <i class="fa fa-spinner"></i>
-        </li>
-      </ul>
+      <form class="form-inline my-2 my-lg-0" submit.trigger="simpleSearch()">
+        <input class="form-control mr-sm-2" type="text" value.bind="simpleSearchTerm"
+               placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">
+          <i class="fa fa-search"></i>
+        </button>
+      </form>
     </div>
   </nav>
 </template>

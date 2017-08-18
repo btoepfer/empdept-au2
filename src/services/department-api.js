@@ -20,8 +20,8 @@ export class DepartmentApi {
       this.http = http;
   }
 
-  getDepartments() {
-    return this.http.fetch('departments')
+  getDepartments(filter) {
+    return this.http.fetch(`departments?filter=${filter}`)
         .then(response => response.json())
         .then(departments => {
             //console.log(departments.data);

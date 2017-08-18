@@ -18,6 +18,7 @@ export class App {
           moduleId: './departments/index',
           nav: true,
           title: 'Departments',
+          href: '#/departments?filter=none',
           settings: { icon:'users' }
         },
         ]);
