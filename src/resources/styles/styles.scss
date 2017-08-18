@@ -4,6 +4,8 @@
 @import "mixins/navigation";
 @import "mixins/footer";
 @import "mixins/department";
+
+
 body {
     margin: 0;
 }
@@ -22,16 +24,6 @@ main {
 main > router-view {
   flex: 1;
   border-top: 1px solid rgba(128, 128, 128, 0.25);
-}
-
-button, a.button {
-  padding: 6px 12px;
-  color: $white;
-  background-color: #5cb85c;
-  border-color: #4cae4c;
-  border: 1px solid transparent;
-  border-radius: 4px;
-  font-size: 14px;
 }
 
 router-view {
