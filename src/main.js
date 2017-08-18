@@ -1,6 +1,6 @@
 import environment from './environment';
 import $ from 'jquery';
-import 'tether';
+import Popper from 'popper.js';
 import 'bootstrap';
 import './resources/styles/fontawesome5/packs/light'
 import './resources/styles/fontawesome5/packs/regular'
