@@ -1,22 +1,23 @@
-(function () {
+var fontawesome = (function () {
 'use strict';
 
-function ___$insertStyle(css) {
-  if (!css) {
-    return;
-  }
-  if (typeof window === 'undefined') {
-    return;
-  }
+var NAMESPACE_IDENTIFIER = '___FONT_AWESOME___';
+var UNITS_IN_GRID = 16;
+var DEFAULT_FAMILY_PREFIX = 'fa';
+var DEFAULT_REPLACEMENT_CLASS = 'svg-inline--fa';
 
-  var style = document.createElement('style');
+var PRODUCTION = typeof process !== 'undefined' && process.env && undefined === 'production';
 
-  style.setAttribute('type', 'text/css');
-  style.innerHTML = css;
-  document.head.appendChild(style);
+var oneToTen = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+var oneToTwenty = oneToTen.concat([11, 12, 13, 14, 15, 16, 17, 18, 19, 20]);
 
-  return css;
-}
+var ATTRIBUTES_WATCHED_FOR_MUTATION = ['data-prefix', 'data-icon', 'data-fa-transform', 'data-fa-compose'];
+
+var RESERVED_CLASSES = ['xs', 'sm', 'lg', 'fw', 'ul', 'li', 'border', 'pull-left', 'pull-right', 'spin', 'pulse', 'rotate-90', 'rotate-180', 'rotate-270', 'flip-horizontal', 'flip-vertical', 'stack', 'stack-1x', 'stack-2x', 'inverse', 'layers', 'layers-text', 'layers-counter'].concat(oneToTen.map(function (n) {
+  return n + 'x';
+})).concat(oneToTwenty.map(function (n) {
+  return 'w-' + n;
+}));
 
 var _extends = Object.assign || function (target) {
   for (var i = 1; i < arguments.length; i++) {
@@ -44,7 +45,17 @@ var _extends = Object.assign || function (target) {
 
 
 
+var objectWithoutProperties = function (obj, keys) {
+  var target = {};
 
+  for (var i in obj) {
+    if (keys.indexOf(i) >= 0) continue;
+    if (!Object.prototype.hasOwnProperty.call(obj, i)) continue;
+    target[i] = obj[i];
+  }
+
+  return target;
+};
 
 
 
@@ -114,42 +125,42 @@ var toConsumableArray = function (arr) {
   }
 };
 
-var config = _extends({
-  namespace: '___FONT_AWESOME___',
-  familyPrefix: 'fa',
-  replacementClass: 'svg-inline--fa',
+var _default = _extends({
+  familyPrefix: DEFAULT_FAMILY_PREFIX,
+  replacementClass: DEFAULT_REPLACEMENT_CLASS,
   autoReplaceSvg: true,
+  autoAddCss: true,
   autoA11y: true,
   observeMutations: true,
   keepOriginalSource: true,
-  measurePerformance: false
+  measurePerformance: false,
+  showMissingIcons: true
 }, window.FontAwesomeConfig || {});
 
-if (!config.autoReplaceSvg) config.observeMutations = false;
+if (!_default.autoReplaceSvg) _default.observeMutations = false;
 
-if (!window[config.namespace]) window[config.namespace] = {};
-if (!window[config.namespace].packs) window[config.namespace].packs = {};
-if (!window[config.namespace].hooks) window[config.namespace].hooks = {};
-if (!window[config.namespace].shims) window[config.namespace].shims = [];
+var config = _extends({}, _default);
 
-var namespace = window[config.namespace];
+window.FontAwesomeConfig = config;
 
-var _window$navigator$use = window.navigator.userAgent;
-var userAgent = _window$navigator$use === undefined ? '' : _window$navigator$use;
+function update(newConfig) {
+  var validKeys = Object.keys(config);
 
+  Object.keys(newConfig).forEach(function (configKey) {
+    if (~validKeys.indexOf(configKey)) {
+      config[configKey] = newConfig[configKey];
+    }
+  });
+}
 
-var oneToTen = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-var oneToTwenty = oneToTen.concat([11, 12, 13, 14, 15, 16, 17, 18, 19, 20]);
+var w = window || {};
 
-var IS_IE = ~userAgent.indexOf('MSIE') || ~userAgent.indexOf('Trident/');
+if (!w[NAMESPACE_IDENTIFIER]) w[NAMESPACE_IDENTIFIER] = {};
+if (!w[NAMESPACE_IDENTIFIER].packs) w[NAMESPACE_IDENTIFIER].packs = {};
+if (!w[NAMESPACE_IDENTIFIER].hooks) w[NAMESPACE_IDENTIFIER].hooks = {};
+if (!w[NAMESPACE_IDENTIFIER].shims) w[NAMESPACE_IDENTIFIER].shims = [];
 
-var ATTRIBUTES_WATCHED_FOR_MUTATION = ['data-prefix', 'data-icon', 'data-fa-transform', 'data-fa-compose'];
-
-var RESERVED_CLASSES = ['xs', 'sm', 'lg', 'fw', 'ul', 'li', 'border', 'pull-left', 'pull-right', 'spin', 'pulse', 'rotate-90', 'rotate-180', 'rotate-270', 'flip-horizontal', 'flip-vertical', 'stack', 'stack-1x', 'stack-2x', 'inverse', 'layers', 'layers-text', 'layers-counter'].concat(oneToTen.map(function (n) {
-  return n + 'x';
-})).concat(oneToTwenty.map(function (n) {
-  return 'w-' + n;
-}));
+var namespace = w[NAMESPACE_IDENTIFIER];
 
 function isReserved(name) {
   return ~RESERVED_CLASSES.indexOf(name);
@@ -163,6 +174,24 @@ function bunker(fn) {
       throw e;
     }
   }
+}
+
+function insertStyle(css) {
+  if (!css) {
+    return;
+  }
+
+  if (typeof window === 'undefined') {
+    return;
+  }
+
+  var style = document.createElement('style');
+
+  style.setAttribute('type', 'text/css');
+  style.innerHTML = css;
+  document.head.appendChild(style);
+
+  return css;
 }
 
 var _uniqueId = 0;
@@ -226,6 +255,23 @@ function toHtml(abstractNodes) {
   }
 }
 
+var _window$navigator$use = window.navigator.userAgent;
+var userAgent = _window$navigator$use === undefined ? '' : _window$navigator$use;
+
+
+var IS_BROWSER = !!window;
+
+var IS_IE = ~userAgent.indexOf('MSIE') || ~userAgent.indexOf('Trident/');
+
+function MissingIcon(error) {
+  this.name = 'MissingIcon';
+  this.message = error || 'Icon unavailable';
+  this.stack = new Error().stack;
+}
+
+MissingIcon.prototype = Object.create(Error.prototype);
+MissingIcon.prototype.constructor = MissingIcon;
+
 var FILL = { fill: 'currentColor' };
 var ANIMATION_BASE = {
   attributeType: 'XML',
@@ -287,15 +333,13 @@ var makeIconComposition = function (_ref) {
 
 
   var groupTranslate = 'translate(' + transform.x * 32 + ', ' + transform.y * 32 + ') ';
-  var groupScale = 'scale(' + transform.size / 16 * (transform.flipX ? -1 : 1) + ', ' + transform.size / 16 * (transform.flipY ? -1 : 1) + ')';
+  var groupScale = 'scale(' + transform.size / 16 * (transform.flipX ? -1 : 1) + ', ' + transform.size / 16 * (transform.flipY ? -1 : 1) + ') ';
+  var groupRotate = 'rotate(' + transform.rotate + ' 0 0)';
   var groupTransform = {
-    transform: groupTranslate + ' ' + groupScale
+    transform: groupTranslate + ' ' + groupScale + ' ' + groupRotate
   };
   var mainTransform = {
-    transform: 'rotate(' + transform.rotate + ')'
-  };
-  var transformOrigin = {
-    'transform-origin': mainWidth / 2 + ' 256'
+    transform: 'translate(' + mainWidth / 2 * -1 + ' -256)'
   };
   var maskRect = {
     tag: 'rect',
@@ -305,13 +349,13 @@ var makeIconComposition = function (_ref) {
   };
   var maskInnerGroup = {
     tag: 'g',
-    attributes: _extends({}, transformOrigin, groupTransform),
-    children: [{ tag: 'path', attributes: _extends({}, mainPath.attributes, transformOrigin, mainTransform, { fill: 'black' }) }]
+    attributes: _extends({}, groupTransform),
+    children: [{ tag: 'path', attributes: _extends({}, mainPath.attributes, mainTransform, { fill: 'black' }) }]
   };
   var maskOuterGroup = {
     tag: 'g',
     attributes: {
-      transform: 'translate(' + (composeWidth / 2 - mainWidth / 2) + ' 0)'
+      transform: 'translate(' + composeWidth / 2 + ' 256)'
     },
     children: [maskInnerGroup]
   };
@@ -334,11 +378,21 @@ var makeIconComposition = function (_ref) {
   return [defs, { tag: 'rect', attributes: _extends({ fill: 'currentColor', 'clip-path': 'url(#' + clipId + ')', mask: 'url(#' + maskId + ')' }, ALL_SPACE) }];
 };
 
+var d = UNITS_IN_GRID;
 var packs$1 = namespace.packs;
 
 
+var meaninglessTransform = {
+  size: 16,
+  x: 0,
+  y: 0,
+  rotate: 0,
+  flipX: false,
+  flipY: false
+};
+
 function transformIsMeaningful(transform) {
-  return transform.size !== 16 || transform.x !== 0 || transform.y !== 0 || transform.rotate !== 0 || transform.flipX || transform.flipY;
+  return transform.size !== meaninglessTransform.size || transform.x !== meaninglessTransform.x || transform.y !== meaninglessTransform.y || transform.rotate !== meaninglessTransform.rotate || transform.flipX || transform.flipY;
 }
 
 function transformToCss(transform) {
@@ -346,22 +400,22 @@ function transformToCss(transform) {
   var _options$startCentere = options.startCentered,
       startCentered = _options$startCentere === undefined ? false : _options$startCentere,
       _options$width = options.width,
-      width = _options$width === undefined ? 16 : _options$width,
+      width = _options$width === undefined ? d : _options$width,
       _options$height = options.height,
-      height = _options$height === undefined ? 16 : _options$height;
+      height = _options$height === undefined ? d : _options$height;
 
 
   var val = '';
 
   if (startCentered && IS_IE) {
-    val += 'translate(' + (transform.x / 16 - width / 2) + 'em, ' + (transform.y / 16 - height / 2) + 'em) ';
+    val += 'translate(' + (transform.x / d - width / 2) + 'em, ' + (transform.y / d - height / 2) + 'em) ';
   } else if (startCentered) {
-    val += 'translate(calc(-50% + ' + transform.x / 16 + 'em), calc(-50% + ' + transform.y / 16 + 'em)) ';
+    val += 'translate(calc(-50% + ' + transform.x / d + 'em), calc(-50% + ' + transform.y / d + 'em)) ';
   } else {
-    val += 'translate(' + transform.x / 16 + 'em, ' + transform.y / 16 + 'em) ';
+    val += 'translate(' + transform.x / d + 'em, ' + transform.y / d + 'em) ';
   }
 
-  val += 'scale(' + transform.size / 16 * (transform.flipX ? -1 : 1) + ', ' + transform.size / 16 * (transform.flipY ? -1 : 1) + ') ';
+  val += 'scale(' + transform.size / d * (transform.flipX ? -1 : 1) + ', ' + transform.size / d * (transform.flipY ? -1 : 1) + ') ';
   val += 'rotate(' + transform.rotate + 'deg) ';
 
   return val;
@@ -389,29 +443,29 @@ function findIcon(iconName, prefix) {
       height: height,
       icon: { tag: 'path', attributes: { fill: 'currentColor', d: vectorData[0] } }
     };
+  } else if (iconName && prefix && !config.showMissingIcons) {
+    throw new MissingIcon('Icon is missing for prefix ' + prefix + ' with icon name ' + iconName);
   }
 
   return val;
 }
 
-function makeInlineSvg(params) {
-  var prefix = params.prefix,
+function makeInlineSvgAbstract(params) {
+  var _params$icons = params.icons,
+      mainIcon = _params$icons.main,
+      composeIcon = _params$icons.compose,
+      prefix = params.prefix,
       iconName = params.iconName,
       transform = params.transform,
-      compose = params.compose,
       title = params.title,
       extra = params.extra;
-
-
-  var mainIcon = findIcon(iconName, prefix);
-  var composeIcon = findIcon(compose.iconName, compose.prefix);
 
   var _ref = composeIcon.found ? composeIcon : mainIcon,
       width = _ref.width,
       height = _ref.height;
 
   var widthClass = 'fa-w-' + Math.ceil(width / height * 16);
-  var attrClass = [config.replacementClass, config.familyPrefix + '-' + iconName, widthClass].concat(extra.classes).join(' ');
+  var attrClass = [config.replacementClass, iconName ? config.familyPrefix + '-' + iconName : '', widthClass].concat(extra.classes).join(' ');
 
   var attributes = _extends({}, extra.attributes, {
     'data-prefix': prefix,
@@ -424,7 +478,7 @@ function makeInlineSvg(params) {
 
   var children = [];
 
-  if (title) children.push({ tag: 'title', attributes: { id: attributes['aria-labelledby'] }, children: [title] });
+  if (title) children.push({ tag: 'title', attributes: { id: attributes['aria-labelledby'] || 'title-' + nextUniqueId() }, children: [title] });
 
   if (composeIcon.found && mainIcon.found) {
     children.push.apply(children, toConsumableArray(makeIconComposition({ main: mainIcon, compose: composeIcon, transform: transform })));
@@ -445,14 +499,14 @@ function makeInlineSvg(params) {
     children.push(mainIcon.icon);
   }
 
-  return toHtml({
+  return [{
     tag: 'svg',
     attributes: attributes,
     children: children
-  });
+  }];
 }
 
-function makeLayersText(params) {
+function makeLayersTextAbstract(params) {
   var content = params.content,
       width = params.width,
       height = params.height,
@@ -478,18 +532,50 @@ function makeLayersText(params) {
     attributes['style'] = styleString;
   }
 
-  var srTitle = title ? toHtml({ tag: 'span', attributes: { class: 'sr-only' }, children: [title] }) : '';
+  var val = [];
 
-  return toHtml({
+  val.push({
     tag: 'span',
     attributes: attributes,
     children: [content]
-  }) + srTitle;
+  });
+
+  if (title) {
+    val.push({ tag: 'span', attributes: { class: 'sr-only' }, children: [title] });
+  }
+
+  return val;
+}
+
+function makeInlineSvgHtml(params) {
+  var prefix = params.prefix,
+      iconName = params.iconName,
+      compose = params.compose;
+
+
+  var abstract = makeInlineSvgAbstract(_extends({}, params, {
+    icons: {
+      main: findIcon(iconName, prefix),
+      compose: findIcon(compose.iconName, compose.prefix)
+    }
+  }));
+
+  return abstract.map(function (a) {
+    return toHtml(a);
+  }).join('\n');
+}
+
+function makeLayersTextHtml(params) {
+  var abstract = makeLayersTextAbstract(params);
+
+  return abstract.map(function (a) {
+    return toHtml(a);
+  }).join('\n');
 }
 
 var noop = function noop() {};
 var p = config.measurePerformance && performance && performance.mark && performance.measure ? performance : { mark: noop, measure: noop };
-var preamble = 'FA "5.0.0-beta1"';
+var preamble = 'FA "5.0.0-beta3"';
 
 var begin = function begin(name) {
   p.mark(preamble + ' ' + name + ' begins');
@@ -3563,9 +3649,7 @@ var classParser = function (node) {
   return val;
 };
 
-var transformParser = function (node) {
-  var transformString = node.getAttribute('data-fa-transform');
-
+var parseTransformString = function parseTransformString(transformString) {
   var transform = {
     size: 16,
     x: 0,
@@ -3626,6 +3710,10 @@ var transformParser = function (node) {
       return acc;
     }, transform);
   }
+};
+
+var transformParser = function (node) {
+  return parseTransformString(node.getAttribute('data-fa-transform'));
 };
 
 var attributesParser = function (node) {
@@ -3699,7 +3787,7 @@ function generateSvgReplacementMutation(node, nodeMeta) {
       extra = nodeMeta.extra;
 
 
-  return [node, makeInlineSvg({
+  return [node, makeInlineSvgHtml({
     prefix: prefix,
     iconName: iconName,
     transform: transform,
@@ -3730,7 +3818,7 @@ function generateLayersText(node, nodeMeta) {
     extra.attributes['aria-hidden'] = 'true';
   }
 
-  val = [node, makeLayersText({
+  val = [node, makeLayersTextHtml({
     content: node.innerHTML,
     width: width,
     height: height,
@@ -3767,10 +3855,18 @@ function onTree(root) {
   var end = perf.begin('onTree');
 
   var mutations = toArray$1(root.querySelectorAll(prefixesDomQuery)).reduce(function (acc, node) {
-    var mutation = generateMutation(node);
+    try {
+      var mutation = generateMutation(node);
 
-    if (mutation) {
-      acc.push(mutation);
+      if (mutation) {
+        acc.push(mutation);
+      }
+    } catch (e) {
+      if (!PRODUCTION) {
+        if (e instanceof MissingIcon) {
+          console.error(e);
+        }
+      }
     }
 
     return acc;
@@ -3791,6 +3887,96 @@ function onNode(node) {
   }
 }
 
+/*
+object-assign
+(c) Sindre Sorhus
+@license MIT
+*/
+
+/* eslint-disable no-unused-vars */
+var getOwnPropertySymbols = Object.getOwnPropertySymbols;
+var hasOwnProperty$9 = Object.prototype.hasOwnProperty;
+var propIsEnumerable = Object.prototype.propertyIsEnumerable;
+
+function toObject(val) {
+	if (val === null || val === undefined) {
+		throw new TypeError('Object.assign cannot be called with null or undefined');
+	}
+
+	return Object(val);
+}
+
+function shouldUseNative() {
+	try {
+		if (!Object.assign) {
+			return false;
+		}
+
+		// Detect buggy property enumeration order in older V8 versions.
+
+		// https://bugs.chromium.org/p/v8/issues/detail?id=4118
+		var test1 = new String('abc');  // eslint-disable-line no-new-wrappers
+		test1[5] = 'de';
+		if (Object.getOwnPropertyNames(test1)[0] === '5') {
+			return false;
+		}
+
+		// https://bugs.chromium.org/p/v8/issues/detail?id=3056
+		var test2 = {};
+		for (var i = 0; i < 10; i++) {
+			test2['_' + String.fromCharCode(i)] = i;
+		}
+		var order2 = Object.getOwnPropertyNames(test2).map(function (n) {
+			return test2[n];
+		});
+		if (order2.join('') !== '0123456789') {
+			return false;
+		}
+
+		// https://bugs.chromium.org/p/v8/issues/detail?id=3056
+		var test3 = {};
+		'abcdefghijklmnopqrst'.split('').forEach(function (letter) {
+			test3[letter] = letter;
+		});
+		if (Object.keys(Object.assign({}, test3)).join('') !==
+				'abcdefghijklmnopqrst') {
+			return false;
+		}
+
+		return true;
+	} catch (err) {
+		// We don't expect any of the above to throw, but better to be safe.
+		return false;
+	}
+}
+
+var index = shouldUseNative() ? Object.assign : function (target, source) {
+	var from;
+	var to = toObject(target);
+	var symbols;
+
+	for (var s = 1; s < arguments.length; s++) {
+		from = Object(arguments[s]);
+
+		for (var key in from) {
+			if (hasOwnProperty$9.call(from, key)) {
+				to[key] = from[key];
+			}
+		}
+
+		if (getOwnPropertySymbols) {
+			symbols = getOwnPropertySymbols(from);
+			for (var i = 0; i < symbols.length; i++) {
+				if (propIsEnumerable.call(from, symbols[i])) {
+					to[symbols[i]] = from[symbols[i]];
+				}
+			}
+		}
+	}
+
+	return to;
+};
+
 var functions = [];
 var listener = function listener() {
   document.removeEventListener('DOMContentLoaded', listener);
@@ -3808,10 +3994,86 @@ var domready = function (fn) {
   loaded ? setTimeout(fn, 0) : functions.push(fn);
 };
 
-var api = {
+var baseStyles = ".svg-inline--fa {\n  display: inline-block;\n  font-size: inherit;\n  height: 1em;\n  overflow: visible;\n  vertical-align: -12.5%; }\n  .svg-inline--fa.fa-lg {\n    vertical-align: -25%; }\n  .svg-inline--fa.fa-w-1 {\n    width: 0.0625em; }\n  .svg-inline--fa.fa-w-2 {\n    width: 0.125em; }\n  .svg-inline--fa.fa-w-3 {\n    width: 0.1875em; }\n  .svg-inline--fa.fa-w-4 {\n    width: 0.25em; }\n  .svg-inline--fa.fa-w-5 {\n    width: 0.3125em; }\n  .svg-inline--fa.fa-w-6 {\n    width: 0.375em; }\n  .svg-inline--fa.fa-w-7 {\n    width: 0.4375em; }\n  .svg-inline--fa.fa-w-8 {\n    width: 0.5em; }\n  .svg-inline--fa.fa-w-9 {\n    width: 0.5625em; }\n  .svg-inline--fa.fa-w-10 {\n    width: 0.625em; }\n  .svg-inline--fa.fa-w-11 {\n    width: 0.6875em; }\n  .svg-inline--fa.fa-w-12 {\n    width: 0.75em; }\n  .svg-inline--fa.fa-w-13 {\n    width: 0.8125em; }\n  .svg-inline--fa.fa-w-14 {\n    width: 0.875em; }\n  .svg-inline--fa.fa-w-15 {\n    width: 0.9375em; }\n  .svg-inline--fa.fa-w-16 {\n    width: 1em; }\n  .svg-inline--fa.fa-w-17 {\n    width: 1.0625em; }\n  .svg-inline--fa.fa-w-18 {\n    width: 1.125em; }\n  .svg-inline--fa.fa-w-19 {\n    width: 1.1875em; }\n  .svg-inline--fa.fa-w-20 {\n    width: 1.25em; }\n  .svg-inline--fa.fa-pull-left {\n    margin-right: .3em;\n    width: auto; }\n  .svg-inline--fa.fa-pull-right {\n    margin-left: .3em;\n    width: auto; }\n  .svg-inline--fa.fa-border {\n    height: 1.5em; }\n  .svg-inline--fa.fa-li {\n    top: auto;\n    width: 1.875em; }\n  .svg-inline--fa.fa-fw {\n    width: 1.25em; }\n\n.fa-layers svg.svg-inline--fa {\n  bottom: 0;\n  left: 0;\n  margin: auto;\n  position: absolute;\n  right: 0;\n  top: 0; }\n\n.fa-layers {\n  display: inline-block;\n  height: 1em;\n  position: relative;\n  text-align: center;\n  vertical-align: -12.5%;\n  width: 1em; }\n  .fa-layers svg.svg-inline--fa {\n    -webkit-transform-origin: center center;\n            transform-origin: center center; }\n\n.fa-layers-text, .fa-layers-counter {\n  display: inline-block;\n  position: absolute;\n  text-align: center; }\n\n.fa-layers-text {\n  left: 50%;\n  top: 50%;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n  -webkit-transform-origin: center center;\n          transform-origin: center center; }\n\n.fa-layers-counter {\n  background-color: #ff253a;\n  border-radius: 1em;\n  color: #fff;\n  height: 1.5em;\n  line-height: 1;\n  max-width: 5em;\n  min-width: 1.5em;\n  overflow: hidden;\n  padding: .25em;\n  right: 0;\n  text-overflow: ellipsis;\n  top: 0;\n  -webkit-transform: scale(0.25);\n          transform: scale(0.25);\n  -webkit-transform-origin: top right;\n          transform-origin: top right; }\n\n.fa-layers-bottom-right {\n  bottom: 0;\n  right: 0;\n  top: auto;\n  -webkit-transform: scale(0.25);\n          transform: scale(0.25);\n  -webkit-transform-origin: bottom right;\n          transform-origin: bottom right; }\n\n.fa-layers-bottom-left {\n  bottom: 0;\n  left: 0;\n  right: auto;\n  top: auto;\n  -webkit-transform: scale(0.25);\n          transform: scale(0.25);\n  -webkit-transform-origin: bottom left;\n          transform-origin: bottom left; }\n\n.fa-layers-top-right {\n  right: 0;\n  top: 0;\n  -webkit-transform: scale(0.25);\n          transform: scale(0.25);\n  -webkit-transform-origin: top right;\n          transform-origin: top right; }\n\n.fa-layers-top-left {\n  left: 0;\n  right: auto;\n  top: 0;\n  -webkit-transform: scale(0.25);\n          transform: scale(0.25);\n  -webkit-transform-origin: top left;\n          transform-origin: top left; }\n\n.fa-lg {\n  font-size: 1.33333em;\n  line-height: 0.75em;\n  vertical-align: -15%; }\n\n.fa-xs {\n  font-size: .75em; }\n\n.fa-sm {\n  font-size: .875em; }\n\n.fa-1x {\n  font-size: 1em; }\n\n.fa-2x {\n  font-size: 2em; }\n\n.fa-3x {\n  font-size: 3em; }\n\n.fa-4x {\n  font-size: 4em; }\n\n.fa-5x {\n  font-size: 5em; }\n\n.fa-6x {\n  font-size: 6em; }\n\n.fa-7x {\n  font-size: 7em; }\n\n.fa-8x {\n  font-size: 8em; }\n\n.fa-9x {\n  font-size: 9em; }\n\n.fa-10x {\n  font-size: 10em; }\n\n.fa-fw {\n  text-align: center;\n  width: 1.25em; }\n\n.fa-ul {\n  list-style-type: none;\n  margin-left: 1.875em;\n  padding-left: 0; }\n  .fa-ul > li {\n    position: relative; }\n\n.fa-li {\n  left: -1.875em;\n  position: absolute;\n  text-align: center;\n  top: 0.14286em;\n  width: 1.875em; }\n  .fa-li.fa-lg {\n    left: -1.625em; }\n\n.fa-border {\n  border: solid 0.08em #eee;\n  border-radius: .1em;\n  padding: .2em .25em .15em; }\n\n.fa-pull-left {\n  float: left; }\n\n.fa-pull-right {\n  float: right; }\n\n.fa.fa-pull-left,\n.fas.fa-pull-left,\n.far.fa-pull-left,\n.fal.fa-pull-left,\n.fab.fa-pull-left {\n  margin-right: .3em; }\n\n.fa.fa-pull-right,\n.fas.fa-pull-right,\n.far.fa-pull-right,\n.fal.fa-pull-right,\n.fab.fa-pull-right {\n  margin-left: .3em; }\n\n.fa-spin {\n  -webkit-animation: fa-spin 2s infinite linear;\n          animation: fa-spin 2s infinite linear; }\n\n.fa-pulse {\n  -webkit-animation: fa-spin 1s infinite steps(8);\n          animation: fa-spin 1s infinite steps(8); }\n\n@-webkit-keyframes fa-spin {\n  0% {\n    -webkit-transform: rotate(0deg);\n            transform: rotate(0deg); }\n  100% {\n    -webkit-transform: rotate(360deg);\n            transform: rotate(360deg); } }\n\n@keyframes fa-spin {\n  0% {\n    -webkit-transform: rotate(0deg);\n            transform: rotate(0deg); }\n  100% {\n    -webkit-transform: rotate(360deg);\n            transform: rotate(360deg); } }\n\n.fa-rotate-90 {\n  -ms-filter: \"progid:DXImageTransform.Microsoft.BasicImage(rotation=1)\";\n  -webkit-transform: rotate(90deg);\n          transform: rotate(90deg); }\n\n.fa-rotate-180 {\n  -ms-filter: \"progid:DXImageTransform.Microsoft.BasicImage(rotation=2)\";\n  -webkit-transform: rotate(180deg);\n          transform: rotate(180deg); }\n\n.fa-rotate-270 {\n  -ms-filter: \"progid:DXImageTransform.Microsoft.BasicImage(rotation=3)\";\n  -webkit-transform: rotate(270deg);\n          transform: rotate(270deg); }\n\n.fa-flip-horizontal {\n  -ms-filter: \"progid:DXImageTransform.Microsoft.BasicImage(rotation=0, mirror=1)\";\n  -webkit-transform: scale(-1, 1);\n          transform: scale(-1, 1); }\n\n.fa-flip-vertical {\n  -ms-filter: \"progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1)\";\n  -webkit-transform: scale(1, -1);\n          transform: scale(1, -1); }\n\n:root .fa-rotate-90,\n:root .fa-rotate-180,\n:root .fa-rotate-270,\n:root .fa-flip-horizontal,\n:root .fa-flip-vertical {\n  -webkit-filter: none;\n          filter: none; }\n\n.fa-stack {\n  display: inline-block;\n  height: 2em;\n  position: relative;\n  width: 2em; }\n\n.fa-stack-1x,\n.fa-stack-2x {\n  bottom: 0;\n  left: 0;\n  margin: auto;\n  position: absolute;\n  right: 0;\n  top: 0; }\n\n.svg-inline--fa.fa-stack-1x {\n  height: 1em;\n  width: 1em; }\n\n.svg-inline--fa.fa-stack-2x {\n  height: 2em;\n  width: 2em; }\n\n.fa-inverse {\n  color: #fff; }\n\n.sr-only {\n  border: 0;\n  clip: rect(0, 0, 0, 0);\n  height: 1px;\n  margin: -1px;\n  overflow: hidden;\n  padding: 0;\n  position: absolute;\n  width: 1px; }\n\n.sr-only-focusable:active, .sr-only-focusable:focus {\n  clip: auto;\n  height: auto;\n  margin: 0;\n  overflow: visible;\n  position: static;\n  width: auto; }\n";
+
+var styles = function () {
+  var dfp = DEFAULT_FAMILY_PREFIX;
+  var drc = DEFAULT_REPLACEMENT_CLASS;
+  var fp = config.familyPrefix;
+  var rc = config.replacementClass;
+  var s = baseStyles;
+
+  if (fp !== dfp || rc !== drc) {
+    var dPatt = new RegExp('\\.' + dfp + '\\-', 'g');
+    var rPatt = new RegExp('\\.' + drc, 'g');
+
+    s = s.replace(dPatt, '.' + fp + '-').replace(rPatt, '.' + rc);
+  }
+
+  return s;
+};
+
+function prepIcon(icon) {
+  var _icon = toArray(icon),
+      width = _icon[0],
+      height = _icon[1],
+      _l = _icon[2],
+      _u = _icon[3],
+      vectorData = _icon.slice(4); // eslint-disable-line no-unused-vars
+
+  return {
+    found: true,
+    width: width,
+    height: height,
+    icon: { tag: 'path', attributes: { fill: 'currentColor', d: vectorData[0] } }
+  };
+}
+
+var _stylesInserted = false;
+
+function ensureStyles() {
+  if (!config.autoAddCss) {
+    return;
+  }
+
+  if (!_stylesInserted) {
+    insertStyle(styles());
+  }
+
+  _stylesInserted = true;
+}
+
+function apiObject(val, abstractCreator) {
+  Object.defineProperty(val, 'abstract', {
+    get: abstractCreator
+  });
+
+  Object.defineProperty(val, 'html', {
+    get: function get$$1() {
+      return val.abstract.map(function (a) {
+        return toHtml(a);
+      });
+    }
+  });
+
+  Object.defineProperty(val, 'node', {
+    get: function get$$1() {
+      var container = document.createElement('div');
+      container.innerHTML = val.html;
+      return container.children;
+    }
+  });
+
+  return val;
+}
+
+var api$1 = {
   dom: {
     i2svg: function i2svg() {
       var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+      ensureStyles();
+
       var _params$node = params.node,
           node = _params$node === undefined ? document : _params$node,
           _params$callback = params.callback,
@@ -3819,21 +4081,173 @@ var api = {
 
 
       onTree(node, callback);
+    },
+
+    styles: styles,
+
+    insertStyles: function insertStyles() {
+      insertStyle(styles());
     }
+  },
+
+  parse: {
+    transform: function transform(transformString) {
+      return parseTransformString(transformString);
+    },
+
+    iconFromPack: function iconFromPack(iconString) {
+      var _getCanonicalIcon = getCanonicalIcon(iconString.split(' ')),
+          prefix = _getCanonicalIcon.prefix,
+          iconName = _getCanonicalIcon.iconName;
+
+      if (namespace.packs && namespace.packs[prefix] && namespace.packs[prefix][iconName]) {
+        return {
+          prefix: prefix,
+          iconName: iconName,
+          icon: namespace.packs[prefix][iconName]
+        };
+      }
+    }
+  },
+
+  icon: function icon(iconDefinition) {
+    var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    var _params$transform = params.transform,
+        transform = _params$transform === undefined ? meaninglessTransform : _params$transform,
+        _params$compose = params.compose,
+        compose = _params$compose === undefined ? null : _params$compose,
+        _params$title = params.title,
+        title = _params$title === undefined ? null : _params$title,
+        _params$classes = params.classes,
+        classes = _params$classes === undefined ? [] : _params$classes,
+        _params$attributes = params.attributes,
+        attributes = _params$attributes === undefined ? {} : _params$attributes,
+        _params$style = params.style,
+        style = _params$style === undefined ? {} : _params$style;
+    var prefix = iconDefinition.prefix,
+        iconName = iconDefinition.iconName,
+        icon = iconDefinition.icon;
+
+
+    return apiObject(_extends({ type: 'icon' }, iconDefinition), function () {
+      ensureStyles();
+
+      if (config.autoA11y) {
+        if (title) {
+          attributes['aria-labelledby'] = config.replacementClass + '-title-' + nextUniqueId();
+        } else {
+          attributes['aria-hidden'] = 'true';
+        }
+      }
+
+      return makeInlineSvgAbstract({
+        icons: {
+          main: prepIcon(icon),
+          compose: compose ? prepIcon(compose.icon) : { found: false, width: null, height: null, icon: {} }
+        },
+        prefix: prefix,
+        iconName: iconName,
+        transform: _extends({}, meaninglessTransform, transform),
+        title: title,
+        extra: {
+          attributes: attributes,
+          style: style,
+          classes: classes
+        }
+      });
+    });
+  },
+
+  text: function text(content) {
+    var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    var _params$transform2 = params.transform,
+        transform = _params$transform2 === undefined ? meaninglessTransform : _params$transform2,
+        _params$title2 = params.title,
+        title = _params$title2 === undefined ? null : _params$title2,
+        _params$classes2 = params.classes,
+        classes = _params$classes2 === undefined ? [] : _params$classes2,
+        _params$attributes2 = params.attributes,
+        attributes = _params$attributes2 === undefined ? {} : _params$attributes2,
+        _params$style2 = params.style,
+        style = _params$style2 === undefined ? {} : _params$style2;
+
+
+    return apiObject({ type: 'text', content: content }, function () {
+      ensureStyles();
+
+      return makeLayersTextAbstract({
+        content: content,
+        transform: _extends({}, meaninglessTransform, transform),
+        title: title,
+        extra: {
+          attributes: attributes,
+          style: style,
+          classes: [config.familyPrefix + '-layers-text'].concat(toConsumableArray(classes))
+        }
+      });
+    });
+  },
+
+  layer: function layer(assembler) {
+    return apiObject({ type: 'layer' }, function () {
+      ensureStyles();
+
+      var children = [];
+
+      assembler(function (args) {
+        Array.isArray(args) ? children = args.map(function (a) {
+          children = children.concat(a.abstract);
+        }) : children = children.concat(args.abstract);
+      });
+
+      return [{
+        tag: 'span',
+        attributes: { class: config.familyPrefix + '-layers' },
+        children: children
+      }];
+    });
   }
 };
 
-___$insertStyle(".svg-inline--fa {\n  display: inline-block;\n  font-size: inherit;\n  height: 1em;\n  overflow: visible;\n  vertical-align: -12.5%; }\n  .svg-inline--fa.fa-lg {\n    vertical-align: -25%; }\n  .svg-inline--fa.fa-w-1 {\n    width: 0.0625em; }\n  .svg-inline--fa.fa-w-2 {\n    width: 0.125em; }\n  .svg-inline--fa.fa-w-3 {\n    width: 0.1875em; }\n  .svg-inline--fa.fa-w-4 {\n    width: 0.25em; }\n  .svg-inline--fa.fa-w-5 {\n    width: 0.3125em; }\n  .svg-inline--fa.fa-w-6 {\n    width: 0.375em; }\n  .svg-inline--fa.fa-w-7 {\n    width: 0.4375em; }\n  .svg-inline--fa.fa-w-8 {\n    width: 0.5em; }\n  .svg-inline--fa.fa-w-9 {\n    width: 0.5625em; }\n  .svg-inline--fa.fa-w-10 {\n    width: 0.625em; }\n  .svg-inline--fa.fa-w-11 {\n    width: 0.6875em; }\n  .svg-inline--fa.fa-w-12 {\n    width: 0.75em; }\n  .svg-inline--fa.fa-w-13 {\n    width: 0.8125em; }\n  .svg-inline--fa.fa-w-14 {\n    width: 0.875em; }\n  .svg-inline--fa.fa-w-15 {\n    width: 0.9375em; }\n  .svg-inline--fa.fa-w-16 {\n    width: 1em; }\n  .svg-inline--fa.fa-w-17 {\n    width: 1.0625em; }\n  .svg-inline--fa.fa-w-18 {\n    width: 1.125em; }\n  .svg-inline--fa.fa-w-19 {\n    width: 1.1875em; }\n  .svg-inline--fa.fa-w-20 {\n    width: 1.25em; }\n  .svg-inline--fa.fa-pull-left {\n    margin-right: .3em;\n    width: auto; }\n  .svg-inline--fa.fa-pull-right {\n    margin-left: .3em;\n    width: auto; }\n  .svg-inline--fa.fa-border {\n    height: 1.5em; }\n  .svg-inline--fa.fa-li {\n    top: auto;\n    width: 1.875em; }\n  .svg-inline--fa.fa-fw {\n    width: 1.25em; }\n\n.fa-layers svg.svg-inline--fa {\n  bottom: 0;\n  left: 0;\n  margin: auto;\n  position: absolute;\n  right: 0;\n  top: 0; }\n\n.fa-layers {\n  display: inline-block;\n  height: 1em;\n  position: relative;\n  text-align: center;\n  vertical-align: -12.5%;\n  width: 1em; }\n  .fa-layers svg.svg-inline--fa {\n    -webkit-transform-origin: center center;\n            transform-origin: center center; }\n\n.fa-layers-text, .fa-layers-counter {\n  display: inline-block;\n  position: absolute;\n  text-align: center; }\n\n.fa-layers-text {\n  left: 50%;\n  top: 50%;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n  -webkit-transform-origin: center center;\n          transform-origin: center center; }\n\n.fa-layers-counter {\n  background-color: #ff253a;\n  border-radius: 1em;\n  color: #fff;\n  height: 1.5em;\n  line-height: 1;\n  max-width: 5em;\n  min-width: 1.5em;\n  overflow: hidden;\n  padding: .25em;\n  right: 0;\n  text-overflow: ellipsis;\n  top: 0;\n  -webkit-transform: scale(0.25);\n          transform: scale(0.25);\n  -webkit-transform-origin: top right;\n          transform-origin: top right; }\n\n.fa-layers-bottom-right {\n  bottom: 0;\n  right: 0;\n  top: auto;\n  -webkit-transform: scale(0.25);\n          transform: scale(0.25);\n  -webkit-transform-origin: bottom right;\n          transform-origin: bottom right; }\n\n.fa-layers-bottom-left {\n  bottom: 0;\n  left: 0;\n  right: auto;\n  top: auto;\n  -webkit-transform: scale(0.25);\n          transform: scale(0.25);\n  -webkit-transform-origin: bottom left;\n          transform-origin: bottom left; }\n\n.fa-layers-top-right {\n  right: 0;\n  top: 0;\n  -webkit-transform: scale(0.25);\n          transform: scale(0.25);\n  -webkit-transform-origin: top right;\n          transform-origin: top right; }\n\n.fa-layers-top-left {\n  left: 0;\n  right: auto;\n  top: 0;\n  -webkit-transform: scale(0.25);\n          transform: scale(0.25);\n  -webkit-transform-origin: top left;\n          transform-origin: top left; }\n\n.fa-lg {\n  font-size: 1.33333em;\n  line-height: 0.75em;\n  vertical-align: -15%; }\n\n.fa-xs {\n  font-size: .75em; }\n\n.fa-sm {\n  font-size: .875em; }\n\n.fa-1x {\n  font-size: 1em; }\n\n.fa-2x {\n  font-size: 2em; }\n\n.fa-3x {\n  font-size: 3em; }\n\n.fa-4x {\n  font-size: 4em; }\n\n.fa-5x {\n  font-size: 5em; }\n\n.fa-6x {\n  font-size: 6em; }\n\n.fa-7x {\n  font-size: 7em; }\n\n.fa-8x {\n  font-size: 8em; }\n\n.fa-9x {\n  font-size: 9em; }\n\n.fa-10x {\n  font-size: 10em; }\n\n.fa-fw {\n  text-align: center;\n  width: 1.25em; }\n\n.fa-ul {\n  list-style-type: none;\n  margin-left: 1.875em;\n  padding-left: 0; }\n  .fa-ul > li {\n    position: relative; }\n\n.fa-li {\n  left: -1.875em;\n  position: absolute;\n  text-align: center;\n  top: 0.14286em;\n  width: 1.875em; }\n  .fa-li.fa-lg {\n    left: -1.625em; }\n\n.fa-border {\n  border: solid 0.08em #eee;\n  border-radius: .1em;\n  padding: .2em .25em .15em; }\n\n.fa-pull-left {\n  float: left; }\n\n.fa-pull-right {\n  float: right; }\n\n.fa.fa-pull-left,\n.fas.fa-pull-left,\n.far.fa-pull-left,\n.fal.fa-pull-left,\n.fab.fa-pull-left {\n  margin-right: .3em; }\n\n.fa.fa-pull-right,\n.fas.fa-pull-right,\n.far.fa-pull-right,\n.fal.fa-pull-right,\n.fab.fa-pull-right {\n  margin-left: .3em; }\n\n.fa-spin {\n  -webkit-animation: fa-spin 2s infinite linear;\n          animation: fa-spin 2s infinite linear; }\n\n.fa-pulse {\n  -webkit-animation: fa-spin 1s infinite steps(8);\n          animation: fa-spin 1s infinite steps(8); }\n\n@-webkit-keyframes fa-spin {\n  0% {\n    -webkit-transform: rotate(0deg);\n            transform: rotate(0deg); }\n  100% {\n    -webkit-transform: rotate(360deg);\n            transform: rotate(360deg); } }\n\n@keyframes fa-spin {\n  0% {\n    -webkit-transform: rotate(0deg);\n            transform: rotate(0deg); }\n  100% {\n    -webkit-transform: rotate(360deg);\n            transform: rotate(360deg); } }\n\n.fa-rotate-90 {\n  -ms-filter: \"progid:DXImageTransform.Microsoft.BasicImage(rotation=1)\";\n  -webkit-transform: rotate(90deg);\n          transform: rotate(90deg); }\n\n.fa-rotate-180 {\n  -ms-filter: \"progid:DXImageTransform.Microsoft.BasicImage(rotation=2)\";\n  -webkit-transform: rotate(180deg);\n          transform: rotate(180deg); }\n\n.fa-rotate-270 {\n  -ms-filter: \"progid:DXImageTransform.Microsoft.BasicImage(rotation=3)\";\n  -webkit-transform: rotate(270deg);\n          transform: rotate(270deg); }\n\n.fa-flip-horizontal {\n  -ms-filter: \"progid:DXImageTransform.Microsoft.BasicImage(rotation=0, mirror=1)\";\n  -webkit-transform: scale(-1, 1);\n          transform: scale(-1, 1); }\n\n.fa-flip-vertical {\n  -ms-filter: \"progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1)\";\n  -webkit-transform: scale(1, -1);\n          transform: scale(1, -1); }\n\n:root .fa-rotate-90,\n:root .fa-rotate-180,\n:root .fa-rotate-270,\n:root .fa-flip-horizontal,\n:root .fa-flip-vertical {\n  -webkit-filter: none;\n          filter: none; }\n\n.fa-stack {\n  display: inline-block;\n  height: 2em;\n  position: relative;\n  width: 2em; }\n\n.fa-stack-1x,\n.fa-stack-2x {\n  bottom: 0;\n  left: 0;\n  margin: auto;\n  position: absolute;\n  right: 0;\n  top: 0; }\n\n.svg-inline--fa.fa-stack-1x {\n  height: 1em;\n  width: 1em; }\n\n.svg-inline--fa.fa-stack-2x {\n  height: 2em;\n  width: 2em; }\n\n.fa-inverse {\n  color: #fff; }\n\n.sr-only {\n  border: 0;\n  clip: rect(0, 0, 0, 0);\n  height: 1px;\n  margin: -1px;\n  overflow: hidden;\n  padding: 0;\n  position: absolute;\n  width: 1px; }\n\n.sr-only-focusable:active, .sr-only-focusable:focus {\n  clip: auto;\n  height: auto;\n  margin: 0;\n  overflow: visible;\n  position: static;\n  width: auto; }\n");
+Object.defineProperty(api$1, 'config', {
+  get: function get$$1() {
+    var autoReplaceSvg = config.autoReplaceSvg,
+        observeMutations = config.observeMutations,
+        showMissingIcons = config.showMissingIcons,
+        rest = objectWithoutProperties(config, ['autoReplaceSvg', 'observeMutations', 'showMissingIcons']);
+
+    return rest;
+  },
+
+  set: function set$$1(newConfig) {
+    update(newConfig);
+  }
+});
 
 bunker(function () {
   var autoReplace = function autoReplace() {
-    if (config.autoReplaceSvg) onTree(document);
+    if (config.autoReplaceSvg) api$1.dom.i2svg({ node: document });
   };
 
-  namespace.hooks = _extends({}, namespace.hooks, {
+  if (IS_BROWSER) {
+    if (!window.FontAwesome) {
+      window.FontAwesome = api$1;
+    }
 
+    domready(function () {
+      if (Object.keys(namespace.packs).length > 0) {
+        autoReplace();
+      }
+
+      if (config.observeMutations && typeof MutationObserver === 'function') {
+        observe({ treeCallback: onTree, nodeCallback: onNode });
+      }
+    });
+  }
+
+  namespace.hooks = index({}, namespace.hooks, {
     addPack: function addPack(prefix, icons) {
-      namespace.packs[prefix] = _extends({}, namespace.packs[prefix] || {}, icons);
+      namespace.packs[prefix] = index({}, namespace.packs[prefix] || {}, icons);
 
       build();
       autoReplace();
@@ -3848,20 +4262,8 @@ bunker(function () {
       autoReplace();
     }
   });
-
-  if (window && !window.FontAwesome) {
-    window.FontAwesome = api;
-  }
-
-  domready(function () {
-    if (Object.keys(namespace.packs).length > 0) {
-      autoReplace();
-    }
-
-    if (config.observeMutations && typeof MutationObserver === 'function') {
-      observe({ treeCallback: onTree, nodeCallback: onNode });
-    }
-  });
 });
+
+return api$1;
 
 }());
