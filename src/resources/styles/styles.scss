@@ -40,5 +40,9 @@ router-view {
 }
 
 .error {
-  color: red;
+  color: $brand-danger;
+}
+
+.success {
+  color: $brand-success;
 }

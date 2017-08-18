@@ -21,7 +21,7 @@ export class DepartmentNew {
     this.department = new Department();
     this.validationController = validationController;
     this.validationController.addRenderer(new SimpleValidationRenderer());
-    this.validationController.validateTrigger = validateTrigger.change;
+    this.validationController.validateTrigger = validateTrigger.changeOrBlur;
   }
 
 
@@ -40,6 +40,7 @@ export class DepartmentNew {
 
   attached() {
     $("#dname").focus();
+    $('[data-toggle="popover"]').popover();
   }
 
 }

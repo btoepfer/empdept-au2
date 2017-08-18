@@ -2,12 +2,14 @@
 import {inject, NewInstance} from 'aurelia-dependency-injection';
 import {DepartmentApi } from '../services/department-api';
 import {Department } from '../models/department';
-import {ValidationController, validateTrigger} from 'aurelia-validation';
+import {ValidationController, validateTrigger, ValidationRules} from 'aurelia-validation';
 import {SimpleValidationRenderer} from "../resources/validation/simple-validation-renderer";
 import {Employee} from '../models/employee';
 
 @inject (NewInstance.of(ValidationController), DepartmentApi)
 export class EmployeeNew {
+
+ 
 
   constructor(validationController, departmentApi) {
     this.departmentApi = departmentApi;
@@ -15,9 +17,16 @@ export class EmployeeNew {
     this.department_id = null;
     this.validationController = validationController;
     this.validationController.addRenderer(new SimpleValidationRenderer());
-    this.validationController.validateTrigger = validateTrigger.change;
+    this.validationController.validateTrigger = validateTrigger.changeOrBlur;
+    
   }
  
+  // ToDo: Wird nicht geprüft
+  bind() {
+    ValidationRules
+      .ensure("department_id")
+      .required();
+  }
 
   activate(params) {
     this.department_id = params.id;
