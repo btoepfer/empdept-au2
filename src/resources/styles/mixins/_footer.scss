@@ -7,13 +7,13 @@
     padding: 1rem;
     /* Set the fixed height of the footer here */
     height: $navbar-height;
-    background-color: $navbar-inverse-bg;
-    color: #fff;
+    background-color: theme-color("dark");
+    color: $white;
     a {
-        color: $navbar-inverse-color;
+        color: $gray-200;
         margin-right: 20px;
         &:hover {
-            color: #fff;
+            color: $white;
             text-decoration: none;
         }
     }

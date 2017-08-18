@@ -1,4 +1,5 @@
 @import "mixins/custom";
+@import "../../../node_modules/bootstrap/scss/bootstrap";
 @import "mixins/animation";
 @import "mixins/navigation";
 @import "mixins/footer";
@@ -25,7 +26,7 @@ main > router-view {
 
 button, a.button {
   padding: 6px 12px;
-  color: #fff;
+  color: $white;
   background-color: #5cb85c;
   border-color: #4cae4c;
   border: 1px solid transparent;
@@ -39,10 +40,11 @@ router-view {
   width: 100%;
 }
 
+
 .error {
-  color: $brand-danger;
+  color: theme-color("danger");
 }
 
 .success {
-  color: $brand-success;
+  color: theme-color("success");
 }
