@@ -7,11 +7,11 @@
     <!-- Rechter Navigationsbereich --> 
     <nav-bar-left router.bind="deptRouter"></nav-bar-left>
 
-    <section>
+    <section class="content">
       <!-- Anzeige der Departments als Liste inkl. Filter -->
       <div class="row">
         <div class="col-md-4 justify-content-start">
-          <form class="mt-4 form-inline" keypress.trigger="filterDepartments(filterTerm)" submit.trigger="clearFilterTerm()">
+          <form class="mt-1 form-inline" keypress.trigger="filterDepartments(filterTerm)" submit.trigger="clearFilterTerm()">
               <div class="input-group" >
                   <input type="search" size="100%" value.bind="filterTerm | toLower" class="form-control filter" id="filterTerm" autofocus placeholder="Filter list">
                   <span class="input-group-btn">
