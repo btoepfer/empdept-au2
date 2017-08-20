@@ -1,4 +1,4 @@
-
+import { activationStrategy } from 'aurelia-router';
 
 export class App {
 
@@ -19,7 +19,8 @@ export class App {
           nav: true,
           title: 'Departments',
           href: '#/departments?filter=none',
-          settings: { icon:'users' }
+          settings: { icon:'users' },
+          activationStrategy: activationStrategy.invokeLifecycle
         },
         ]);
 
