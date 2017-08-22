@@ -1,35 +1,31 @@
-
+import {bindable} from 'aurelia-framework';
 import {inject, NewInstance} from 'aurelia-dependency-injection';
 import {DepartmentApi } from '../services/department-api';
-import {Department } from '../models/department';
 import {ValidationController, validateTrigger, ValidationRules} from 'aurelia-validation';
 import {SimpleValidationRenderer} from "../resources/validation/simple-validation-renderer";
+import {Department } from '../models/department';
 import {Employee} from '../models/employee';
 
 @inject (NewInstance.of(ValidationController), DepartmentApi)
 export class EmployeeNew {
 
- 
+  @bindable
+    departmentList;
+  
 
   constructor(validationController, departmentApi) {
     this.departmentApi = departmentApi;
     this.employee = new Employee();
-    this.department_id = null;
     this.validationController = validationController;
+    this.departmentList = [];
     this.validationController.addRenderer(new SimpleValidationRenderer());
     this.validationController.validateTrigger = validateTrigger.changeOrBlur;
     
   }
  
-  // ToDo: Wird nicht geprüft
-  bind() {
-    ValidationRules
-      .ensure("department_id")
-      .required();
-  }
 
   activate(params) {
-    this.department_id = params.id;
+    this.employee.deptId = params.id;
     this.departmentApi.getDepartments()
       .then(departments => this.departmentList = departments);
   }
@@ -45,22 +41,20 @@ export class EmployeeNew {
 
   
   addEmployee() {
-    //alert(`Add Employee: ${this.department.id}.`);
-
-    this.employee.relationships.department.data.id = this.department_id;
-    let emp = this.employee;
-
+    const deptId = this.employee.deptId;
     this.validationController.validate()
       .then(result => { 
         if (result.valid) {
-          this.departmentApi.saveEmployee(emp)
-            .then(response => this.departmentApi.getEmployees(this.department_id)
-              .then(employees => {
-                this.employees = employees;
-                this.employee = this.clearEmployee();
-                $("#empno").focus();
-              }))
+          this.departmentApi.saveEmployee(this.employee)
+            .then(employees => {
+              this.employees = employees;
+              this.employee = new Employee();
+              this.employee.deptId = deptId;
+              $("#empno").focus();
+            })
             .catch(err => alert(err.statusText))
         }});
+    
+    this.validationController.reset();
   }
 }

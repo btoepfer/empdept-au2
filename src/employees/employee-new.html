@@ -2,9 +2,9 @@
   <h4>Add an Employee</h4>
   <form submit.trigger="addEmployee()">
     <div class="form-group">
-      <label for="department_id">Department (${department_id})</label>
+      <label for="department_id">Department (${employee.deptId})</label>
       <div class="input-group">
-        <select value.bind="department_id">
+        <select value.bind="employee.deptId & validate">
           <option value="">Please select a Department</option>
           <option repeat.for="department of departmentList" model.bind="department.id">${department.attributes.dname}</option>
         </select>

@@ -1,14 +1,18 @@
-import { bindable, inject } from 'aurelia-framework';
+import {inject } from 'aurelia-framework';
+import {Router} from 'aurelia-router';
 import { DepartmentApi } from '../services/department-api';
 
-@inject(DepartmentApi)
+@inject(DepartmentApi, Router)
 export class EmployeeList {
-  constructor(departmentApi) {
+
+
+  constructor(departmentApi, router) {
     this.departmentApi = departmentApi;
     this.department = {};
     this.employees = [];
     this.employee_edit_id = null;
     this.originalEmployee = "";
+    this.router = router;
   }
 
   activate(model) {
@@ -28,12 +32,14 @@ export class EmployeeList {
   }
 
   deleteEmployee(employee) {
-    const department_id = employee.relationships.department.data.id;
+    //const department_id = employee.deptId;
+    
     if (confirm("Do you really want to delete this employee?")) {
       this.departmentApi.deleteEmployee(employee.id)
-        .then(response => this.departmentApi.getEmployees(department_id)
-          .then(employees => this.employees = employees))
-        .catch(err => alert(err.statusText));
+        .then(response => 
+          this.router.navigateToRoute('department', {id: employee.deptId }, { replace: true, trigger: true })
+        )   
+      .catch(err => alert(err.statusText));
     }
   }
 
