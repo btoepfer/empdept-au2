@@ -1,5 +1,6 @@
 import { HttpClient} from 'aurelia-fetch-client';
 import { inject } from 'aurelia-framework';
+import {Department}  from '../models/department';
 
 @inject(HttpClient)
 export class DepartmentApi {
@@ -20,28 +21,38 @@ export class DepartmentApi {
       this.http = http;
   }
 
+  collectDepartments(departments) {
+    let depts = [];
+    let department;
+
+    // returning an array of Departments
+    departments.data.forEach((dept) => {
+      department = new Department(dept);
+      depts.push(department);
+    });
+    return depts;
+  }
+
   getDepartments(filter) {
     return this.http.fetch(`departments?filter=${filter}`)
         .then(response => response.json())
         .then(departments => {
-            //console.log(departments.data);
-            return departments.data;
+          return this.collectDepartments(departments);
         });
   }
 
   getDepartment(departmentID) {
+    let dept;
     return this.http.fetch(`departments/${departmentID}`)
         .then(response => response.json())
         .then(department => {
-            return department.data;
+            dept = new Department(department.data);
+            return dept;
         });
   }
 
   saveDepartment(department)  {
-    let dept_jsonapi = {"data":{
-        "id":null, 
-        "attributes":department.attributes
-      }};
+    console.log(`department vor save: ${department}`);
 
     let http_method = "POST";
     let http_url = 'departments';
@@ -49,18 +60,14 @@ export class DepartmentApi {
     if (department.id) {
       http_method = "PATCH";
       http_url    = `${http_url}/${department.id}`;
-      dept_jsonapi = {"data":{
-        "id":department.id, 
-        "attributes":department.attributes}
-        //"type":"departments"
-      };
     };
     
-    console.log(JSON.stringify(department));
+    console.log("1: " + JSON.stringify(department));
+    console.log("2: " + JSON.stringify(department.serialize()));
 
     return this.http.fetch(http_url, {
           method: http_method,
-          body: JSON.stringify(dept_jsonapi)
+          body: JSON.stringify(department.serialize())
         })
         .then(response => response.json())
           .then(department => {
