@@ -1,0 +1,14 @@
+{
+  "data": [
+    {
+      "id": "10",
+      "dname": "ACCOUNTING",
+      "loc": "NEW YORK"
+    },
+    {
+      "id": "137",
+      "dname": "MANAGEMENT",
+      "loc": "HAMBURG"
+    }
+  ]
+}

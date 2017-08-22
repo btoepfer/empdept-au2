@@ -1,0 +1,40 @@
+{
+  "data": [
+    {
+      "id": "10",
+      "type": "departments",
+      "attributes": {
+        "dname": "ACCOUNTING",
+        "loc": "NEW YORK"
+      },
+      "relationships": {
+        "employees": {
+          "links": {
+            "related": "http://localhost:3000/departments/10/employees"
+          }
+        }
+      },
+      "links": {
+        "self": "http://localhost:3000/departments/10"
+      }
+    },
+    {
+      "id": "137",
+      "type": "departments",
+      "attributes": {
+        "dname": "MANAGEMENT",
+        "loc": "HAMBURG"
+      },
+      "relationships": {
+        "employees": {
+          "links": {
+            "related": "http://localhost:3000/departments/137/employees"
+          }
+        }
+      },
+      "links": {
+        "self": "http://localhost:3000/departments/137"
+      }
+    }
+  ]
+}
