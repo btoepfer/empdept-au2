@@ -9,7 +9,7 @@ export class Employee {
     job     :  null,
     hiredate:  null,
     sal     :  null};
-  deptId    =  null
+  deptId    =  null;
   linkSelf  = "";
 
   constructor(data) {
@@ -17,7 +17,7 @@ export class Employee {
     if (data) {
       this.id = data.id;
       this.attributes = data.attributes;
-      this.deptId = data.relationships.department.data.id
+      this.deptId = data.relationships.department.data.id;
       this.linkSelf = data.links.self;
     };
 
