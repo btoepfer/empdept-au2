@@ -1,3 +1,6 @@
+
+
 export class Welcome {
-  heading = 'EMP/DEPT-App!';
+  //
+  //username = this.aurelia.user.full_name;
 }
