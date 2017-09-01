@@ -5,7 +5,8 @@ import 'bootstrap';
 import './resources/styles/fontawesome5/packs/light'
 import './resources/styles/fontawesome5/packs/regular'
 import './resources/styles/fontawesome5/packs/solid'
-import fontawesome from './resources/styles/fontawesome5/fontawesome';
+import fontawesome from './resources/styles/fontawesome5/fontawesome.min';
+import {getCookie} from './resources/helpers/cookies';
 
 export function configure(aurelia) {
     aurelia.use
@@ -22,5 +23,8 @@ export function configure(aurelia) {
         aurelia.use.plugin('aurelia-testing');
     }
 
-    aurelia.start().then(() => aurelia.setRoot());
+    if (getCookie({name: "empdept"}))
+      aurelia.start().then(() => aurelia.setRoot());
+    else
+      aurelia.start().then(() => aurelia.setRoot('login/login'));
 }

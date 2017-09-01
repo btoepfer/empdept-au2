@@ -2,6 +2,7 @@ import { HttpClient } from 'aurelia-fetch-client';
 import { inject } from 'aurelia-framework';
 import { Department } from '../models/department';
 import { Employee } from '../models/employee';
+import {getCookie} from '../resources/helpers/cookies';
 
 @inject(HttpClient)
 export class DepartmentApi {
@@ -18,6 +19,14 @@ export class DepartmentApi {
             'X-Requested-With': 'Fetch'
           }
         })
+      .withInterceptor({
+        request(request) {
+          const token = getCookie({name: "empdept"});
+          console.log(token);
+          request.headers.append("Authorization", token);
+          return request;
+        }
+      })
     });
     this.http = http;
   }

@@ -81,7 +81,7 @@ export class Departments {
     //this.departmentApi.getDepartments().then(departments => this.filteredDepartments = departments);
   }
 
-  // Nach dem Ändern eines neuen Departments wird über den
+  // Nach dem Ändern eines neuen Departments wird Ã¼ber den
   // EventAggregator getriggerd, diese Funktion aufgerufen
   departmentUpdated(department) {
     let i = this.filteredDepartments.findIndex(d => {
@@ -92,7 +92,7 @@ export class Departments {
   }
 
   // Es wird in allen Departments gesucht, dazu werden diese beim ersten Aufruf
-  // alle übertragen
+  // alle Ã¼bertragen
   filterDepartments(filterTerm) {
     if (this.departments.length === 0)
       this.departments = this.filteredDepartments;

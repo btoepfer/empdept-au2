@@ -1,7 +1,8 @@
 import { activationStrategy } from 'aurelia-router';
 
-export class App {
 
+
+export class App {
     configureRouter(config, router) {
         config.title = 'BCT';
         config.map([{
@@ -21,6 +22,30 @@ export class App {
           href: '#/departments?filter=none',
           settings: { icon:'users' },
           activationStrategy: activationStrategy.invokeLifecycle
+        },
+        {
+          route: 'users',
+          name: 'users',
+          moduleId: './users/user-list',
+          nav: true,
+          title: 'Users',
+          settings: { icon:'users' }
+        },
+        {
+          route: 'users/sign-up',
+          name: 'sign-up',
+          moduleId: './users/sign-up',
+          nav: true,
+          title: 'Sign-Up',
+          settings: { icon:'user' }
+        },
+        {
+          route: 'login/logout',
+          name: 'logout',
+          moduleId: './login/logout',
+          nav: true,
+          title: 'Logout',
+          settings: { icon:'window-close' }
         },
         ]);
 
