@@ -1,0 +1,18 @@
+<template>
+  <ux-dialog>
+    <ux-dialog-header><h5>${model.title}</h5></ux-dialog-header>
+
+    <ux-dialog-body>
+      <p>${model.message}</p>
+      <form submit.trigger="save()"> <!--On submit, ok the dialog w/ the answer response.-->
+        <input type="text" class="form-control" value.bind="action" attach-focus="true"> <!--Bind the answer.-->
+      </form>
+    </ux-dialog-body>
+
+    <ux-dialog-footer>
+      <button class="btn btn-secondary" click.trigger="cancel()">Cancel</button><!--Cancel the dialog.-->
+      <button class="btn btn-primary" click.trigger="save()">Save</button><!--Ok the dialog w/ answer response; Disable the button if there's no answer.-->
+    </ux-dialog-footer>
+  </ux-dialog>
+</template>
+

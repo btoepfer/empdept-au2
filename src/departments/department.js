@@ -2,12 +2,13 @@
 import {Router, Redirect} from 'aurelia-router';
 import { bindable, inject } from 'aurelia-framework';
 import {EventAggregator} from 'aurelia-event-aggregator';
+import {CommonDialogs} from 'resources/dialogs/common-dialogs';
 import { DepartmentApi } from '../services/department-api';
 
-@inject(DepartmentApi, EventAggregator, Router)
+@inject(DepartmentApi, EventAggregator, Router, CommonDialogs)
 export class Department {
 
-  constructor(departmentApi, ea, router) {
+  constructor(departmentApi, ea, router, commonDialogs) {
     this.data = {};
     this.department = {};
     this.employees = [];
@@ -15,6 +16,7 @@ export class Department {
     this.isEditing = false;
     this.ea = ea;
     this.router = router;
+    this.commonDialogs = commonDialogs;
     this.originalDepartment = "";
     
   }
@@ -64,6 +66,19 @@ export class Department {
            this.router.navigateToRoute('departments', { }, { replace: true, trigger: true }))
         .catch(err => alert(err.statusText));
     }
+  }
+
+  newEmployee() {
+    const message = `Adding a new employee...`;
+    
+    this.commonDialogs.showForm(
+      message,
+      'Add Employee'
+      ).then(response => {
+        if (!response.wasCancelled)
+          alert("submit");
+        }
+      );
   }
 
 }

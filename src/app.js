@@ -38,15 +38,7 @@ export class App {
           nav: true,
           title: 'Sign-Up',
           settings: { icon:'user' }
-        },
-        {
-          route: 'login/logout',
-          name: 'logout',
-          moduleId: './login/logout',
-          nav: true,
-          title: 'Logout',
-          settings: { icon:'window-close' }
-        },
+        }
         ]);
 
         this.router = router;
