@@ -26,10 +26,10 @@ export class Login {
 
         const message = `You are logged in!`;
         
-        this.commonDialogs.showMessage(
+        this.commonDialogs.showTempMessage(
           message,
           'Logged In',
-          ['OK']
+          ['OK'], 1000
           ).then();
           this.aurelia.setRoot();
       } else {
@@ -38,3 +38,4 @@ export class Login {
     });
   }
 }
+

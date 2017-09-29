@@ -15,9 +15,20 @@ export class CommonDialogs {
     });
   }
 
+  showTempMessage(message, title = 'Message', options = ['OK'], timeOut = 3000) {
+    return this.dialogService
+      .open({ viewModel: MessageBox, model: { message, title, options } }).then(openDialogResult => {
+      // Note you get here when the dialog is opened, and you are able to close dialog
+      setTimeout(() => {
+        openDialogResult.controller.cancel()
+      }, timeOut);
+    });
+  }
+
   showEmployeeEdit(departmentId, employee) {
     return this.dialogService.open({ viewModel: EmployeeNew, model: {departmentId, employee } }).whenClosed(response => {
       return response;
     });
   }
 }
+
