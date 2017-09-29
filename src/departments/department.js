@@ -2,8 +2,8 @@
 import {Router, Redirect} from 'aurelia-router';
 import { bindable, inject } from 'aurelia-framework';
 import {EventAggregator} from 'aurelia-event-aggregator';
-import {CommonDialogs} from 'resources/dialogs/common-dialogs';
 import { DepartmentApi } from '../services/department-api';
+import {CommonDialogs} from '../resources/dialogs/common-dialogs';
 
 @inject(DepartmentApi, EventAggregator, Router, CommonDialogs)
 export class Department {
@@ -68,17 +68,14 @@ export class Department {
     }
   }
 
-  newEmployee() {
-    const message = `Adding a new employee...`;
-    
-    this.commonDialogs.showForm(
-      message,
-      'Add Employee'
-      ).then(response => {
-        if (!response.wasCancelled)
-          alert("submit");
-        }
-      );
+
+  newEditEmployee(departmentId, employee) {
+    this.commonDialogs.showEmployeeEdit(departmentId, employee).then(response => {
+      console.log(`response: ${JSON.stringify(response)}`);
+      if (!response.wasCancelled)
+        this.router.navigateToRoute('department', {id: response.output}, { replace: true, trigger: true });
+    });
   }
+ 
 
 }

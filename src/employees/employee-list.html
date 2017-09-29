@@ -12,7 +12,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr  repeat.for="employee of employees">
+        <tr  repeat.for="employee of employees" dblclick.delegate="editEmployeeInline(employee)">
           <th scope="row">${employee.attributes.empno}</th>
           <td> 
             <div if.bind="(employee_edit_id!=employee.id)" style="width:10rem;">${employee.attributes.ename}</div>
@@ -49,11 +49,11 @@
           <td>
             <div class="toolbar">
               <div if.bind="(employee_edit_id!=employee.id)">
-                <span click.delegate="editEmployee(employee)">
-                  <i class="far fa-pencil"></i>
-                </span>
                 <span click.delegate="deleteEmployee(employee)">
                   <i class="far fa-trash"></i>
+                </span>
+                <span click.delegate="newEditEmployee(employee.deptId, employee)">
+                  <i class="far fa-pencil"></i>
                 </span>
               </div>
 

@@ -13,7 +13,12 @@ export function configure(aurelia) {
         .standardConfiguration()
         .feature('resources')
         .plugin('aurelia-animator-css')
-        .plugin('aurelia-dialog')
+        .plugin('aurelia-dialog', config => {
+          config.useDefaults();
+          config.settings.lock = true;
+          config.settings.centerHorizontalOnly = false;
+          config.settings.keyboard = ['Escape'];
+        })
         .plugin('aurelia-validation');
 
     if (environment.debug) {
@@ -28,4 +33,5 @@ export function configure(aurelia) {
       aurelia.start().then(() => aurelia.setRoot());
     else
       aurelia.start().then(() => aurelia.setRoot('login/login'));
+      //aurelia.start().then(() => aurelia.setRoot());
 }

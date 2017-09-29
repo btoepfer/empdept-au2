@@ -10,7 +10,7 @@ export class Login {
   constructor(aurelia, userApi, commonDialogs) {
     this.aurelia = aurelia;
     this.userApi = userApi;
-    this.email = 'cp@cp.de';
+    this.email = 'bernd@bctoepfer.de';
     this.password = '00000000';
     this.message = '';
     this.commonDialogs = commonDialogs;

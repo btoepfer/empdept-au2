@@ -20,7 +20,7 @@ export class EmployeeList {
     this.employees = model.employees;
   }
 
-  editEmployee(employee) {
+  editEmployeeInline(employee) {
     this.employee_edit_id = employee.id;
     this.originalEmployee = JSON.parse(JSON.stringify(employee));
      $("#ename").focus();

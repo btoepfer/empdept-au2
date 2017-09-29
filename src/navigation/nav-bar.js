@@ -32,7 +32,7 @@ export class NavBar {
     this.commonDialogs.showMessage(
       message,
       'Logging off',
-      ['Yes', 'No']
+      [ 'No', 'Yes']
       ).then(response => {
         if (!response.wasCancelled)
           this._doLogout();

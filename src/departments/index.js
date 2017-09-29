@@ -1,17 +1,18 @@
-import { activationStrategy } from 'aurelia-router';
+import { Router, activationStrategy } from 'aurelia-router';
 import { bindable, inject } from 'aurelia-framework';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { DepartmentApi } from '../services/department-api';
 
-@inject(DepartmentApi, EventAggregator)
+@inject(DepartmentApi, EventAggregator, Router)
 export class Departments {
 
-  constructor(departmentApi, ea) {
+  constructor(departmentApi, ea, router) {
     this.departments = [];
     this.filteredDepartments = [];
     this.filterTerm = "";
     this.departmentApi = departmentApi;
     this.ea = ea;
+    this.router = router;
     this.filter = 'none';
 
     this.createdSubscription = this.ea.subscribe('department:created', department => this.departmentCreated(department));
@@ -39,14 +40,7 @@ export class Departments {
         title: 'Add Department',
         settings: { icon: 'plus', 'title': 'Add' }
       },
-      {
-        route: 'employees/new',
-        name: 'employee-new',
-        moduleId: '../employees/employee-new',
-        nav: true,
-        title: 'Add Employee',
-        settings: { icon: 'user-plus', 'title': 'Add' }
-      },
+     
       {
         route: ':id/employees/new',
         name: 'employee-new-for-department',
@@ -151,9 +145,6 @@ export class Departments {
     console.log("View deactivated");
     return true;
   }
-
-
-
 
 
 }

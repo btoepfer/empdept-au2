@@ -7,7 +7,7 @@
     </ux-dialog-body>
 
     <ux-dialog-footer>
-      <button class="btn ${($index===0) ? 'btn-primary' : 'btn-secondary'}" repeat.for="option of model.options" click.trigger="selectOption(option)">${option}</button>
+      <button class="btn ${($last) ? 'btn-primary' : 'btn-secondary'}" repeat.for="option of model.options" click.trigger="selectOption(option)">${option}</button>
     </ux-dialog-footer>
   </ux-dialog>
 </template>

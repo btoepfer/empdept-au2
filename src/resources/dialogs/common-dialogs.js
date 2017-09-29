@@ -1,7 +1,7 @@
 import {inject} from 'aurelia-framework';
 import {DialogService} from 'aurelia-dialog';
 import {MessageBox} from './message-box';
-import {ModalForm} from './modal-form';
+import {EmployeeNew} from '../../employees/employee-new';
 
 @inject(DialogService)
 export class CommonDialogs {
@@ -14,9 +14,9 @@ export class CommonDialogs {
       return response;
     });
   }
-  
-  showForm(message, title = 'Prompt') {
-    return this.dialogService.open({ viewModel: ModalForm, model: { message, title } }).whenClosed(response => {
+
+  showEmployeeEdit(departmentId, employee) {
+    return this.dialogService.open({ viewModel: EmployeeNew, model: {departmentId, employee } }).whenClosed(response => {
       return response;
     });
   }

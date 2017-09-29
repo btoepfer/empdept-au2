@@ -28,7 +28,6 @@ export class Employee {
     .ensure("empno")
       .displayName("Employee no.")
       .required()
-      .maxLength(5)
     .ensure("ename")
       .displayName("Employee name")
       .required()
@@ -38,7 +37,6 @@ export class Employee {
     .ensure("sal")
       .displayName("Salary")
       .required()
-      .maxLength(5)
     .on(this.attributes);
   };
 

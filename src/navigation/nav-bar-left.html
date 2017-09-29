@@ -1,13 +1,14 @@
 <template bindable="router">
   <nav class="main nav-bar-left">
-      <ul>
-        <li repeat.for="item of router.navigation" class="${item.isActive ? 'active' : ''}">
-          <a href.bind="item.href" title.bind="item.title">
+    <ul>
+      <li repeat.for="item of router.navigation" class="${item.isActive ? 'active' : ''}">
+        <a href.bind="item.href" title.bind="item.title">
             <i class="far fa-${item.settings.icon}"></i>
             <br>
             <span>${item.settings.title}</span>
           </a>
-        </li>
-      </ul>
-    </nav>
+      </li>
+      
+    </ul>
+  </nav>
 </template>

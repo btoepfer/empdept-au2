@@ -1,74 +1,86 @@
 <template>
-  <h4>Add an Employee</h4>
-  <form submit.trigger="addEmployee()">
-    <div class="form-group">
-      <label for="department_id">Department (${employee.deptId})</label>
-      <div class="input-group">
-        <select value.bind="employee.deptId & validate">
-          <option value="">Please select a Department</option>
-          <option repeat.for="department of departmentList" model.bind="department.id">${department.attributes.dname}</option>
-        </select>
-        <span class="info input-group-addon">
-          <i class="fa fa-info"></i>
-        </span>
-      </div>
-    </div>
+  <ux-dialog>
+    <ux-dialog-header>
+      <h5>Add an Employee</h5>
+    </ux-dialog-header>
 
-    <div class="form-group">
-      <label for="empno">No.</label>
-      <div class="input-group">
-        <input type="text" class="form-control" id="empno" size=5 placeholder="#" value.bind="employee.attributes.empno & validate">
-        <span class="info input-group-addon">
-          <i class="fa fa-info"></i>
-        </span>
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="ename">Name</label>
-      <div class="input-group">
-        <input type="text" class="form-control" id="ename" size=20 placeholder="Name" value.bind="employee.attributes.ename & validate">
-        <span class="info input-group-addon">
+    <ux-dialog-body>
+      <div style="min-width:40rem">
+        <form submit.trigger="addEmployee()">
+          <div class="form-group">
+            <label for="department_id">Department (${employee.deptId})</label>
+            <div class="input-group">
+              <select value.bind="employee.deptId & validate">
+                <option value="">Please select a Department</option>
+                <option repeat.for="department of departmentList" model.bind="department.id">${department.attributes.dname}</option>
+              </select>
+              <span class="info input-group-addon">
                 <i class="fa fa-info"></i>
               </span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="empno">No.</label>
+            <div class="input-group">
+              <input type="text" class="form-control" id="empno" size=5 placeholder="#" value.bind="employee.attributes.empno & validate"
+                attach-focus="true">
+              <span class="info input-group-addon">
+                <i class="fa fa-info"></i>
+              </span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="ename">Name</label>
+            <div class="input-group">
+              <input type="text" class="form-control" id="ename" size=20 placeholder="Name" value.bind="employee.attributes.ename & validate">
+              <span class="info input-group-addon">
+                      <i class="fa fa-info"></i>
+                    </span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="job">Job</label>
+            <div class="input-group">
+              <select value.bind="employee.attributes.job & validate">
+                <option>Job...</option>
+                <option value="MANAGER">MANAGER</option>
+                <option value="CLERK">CLERK</option>
+                <option value="SALESMEN">SALESMEN</option>
+                <option value="ANALYST">ANALYST</option>
+                <option value="PRESIDENT">PRESIDENT</option>
+              </select>
+              <span class="info input-group-addon">
+                <i class="fa fa-info"></i>
+              </span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="hiredate">Hiredate</label>
+            <div class="input-group" >
+              <input type="text" class="form-control" id="hiredate" size=12 placeholder="Hiredate" value.bind="employee.attributes.hiredate & validate" >
+              <span class="info input-group-addon">
+                <i class="fa fa-info"></i>
+              </span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="salary">Salary</label>
+            <div class="input-group">
+              <input type="text" class="form-control" id="salary" size=5 placeholder="Salary" value.bind="employee.attributes.sal & validate">
+              <span class="info input-group-addon">
+                <i class="fa fa-info"></i>
+              </span>
+            </div>
+          </div>
+        </form>
       </div>
-    </div>
-    <div class="form-group">
-      <label for="job">Job</label>
-      <div class="input-group">
-        <select class="custom-select" value.bind="employee.attributes.job & validate">
-         
-       <option>Job...</option>
-        <option value="MANAGER">MANAGER</option>
-        <option value="CLERK">CLERK</option>
-        <option value="SALESMEN">SALESMEN</option>
-        <option value="ANALYST">ANALYST</option>
-        <option value="PRESIDENT">PRESIDENT</option>
-      </select>
-        <span class="info input-group-addon">
-          <i class="fa fa-info"></i>
-        </span>
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="hiredate">Hiredate</label>
-      <div class="input-group">
-        <input type="text" class="form-control" id="hiredate" size=12 placeholder="Hiredate" value.bind="employee.attributes.hiredate & validate">
-        <span class="info input-group-addon">
-          <i class="fa fa-info"></i>
-        </span>
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="salary">Salary</label>
-      <div class="input-group">
-        <input type="text" class="form-control" id="salary" size=5 placeholder="Salary" value.bind="employee.attributes.sal & validate">
-        <span class="info input-group-addon">
-          <i class="fa fa-info"></i>
-        </span>
-      </div>
-    </div>
-    <button type="submit" class="btn btn-primary">
-      Add&nbsp;<i class="fa fa-plus"></i>
-    </button>
-  </form>
+    </ux-dialog-body>
+    <ux-dialog-footer>
+      <button class="btn btn-secondary" click.trigger="cancel()"><i class="fa fa-times"></i>&nbsp;Cancel</button>
+      <!--Cancel the dialog.-->
+      <button type="submit" class="btn btn-primary" click.trigger="addEmployee()"><i class="fa fa-${!employee.id ? 'plus' : 'pencil'}"></i>&nbsp;Save</button>
+      <!--Ok the dialog w/ answer response; Disable the button if there's no answer.-->
+    </ux-dialog-footer>
+  </ux-dialog>
 </template>
