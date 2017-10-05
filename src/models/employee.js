@@ -10,6 +10,8 @@ export class Employee {
     hiredate:  null,
     sal     :  null};
   deptId    =  null;
+  manager   =  null;
+  subordinates = [];
   linkSelf  = "";
 
   constructor(data) {
@@ -18,6 +20,14 @@ export class Employee {
       this.id = data.id;
       this.attributes = data.attributes;
       this.deptId = data.relationships.department.data.id;
+      if (data.relationships.manager.data)
+        this.manager = data.relationships.manager.data.id;
+
+      if (data.relationships.subordinates.data)
+        data.relationships.subordinates.data.map(so => {
+          this.subordinates.push(so.id);
+        });
+      //console.log(`subordinates: ${this.subordinates}`);
       this.linkSelf = data.links.self;
     };
 

@@ -46,7 +46,7 @@
             </div>
           </td>
 
-          <td>
+          <td style="width:16rem">
             <div class="toolbar">
               <div if.bind="(employee_edit_id!=employee.id)">
                 <span click.delegate="deleteEmployee(employee)">
@@ -55,6 +55,9 @@
                 <span click.delegate="newEditEmployee(employee.deptId, employee)">
                   <i class="far fa-pencil"></i>
                 </span>
+                <a tabindex="0" data-toggle="popover" data-placement="right" data-trigger="hover" title="Manager" data-content="${employee.manager}">
+                  <i class="far fa-info"></i>
+                </a>
               </div>
 
               <div if.bind="(employee_edit_id===employee.id)">

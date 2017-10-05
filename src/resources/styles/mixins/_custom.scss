@@ -16,7 +16,7 @@ $gray-500: #adb5bd;
 $gray-600: #868e96;
 $gray-700: #495057;
 $gray-800: #343a40;
-$gray-900: #212529;
+$gray-900: #041B15;
 $black:  #000;
 
 $grays: (
@@ -31,11 +31,12 @@ $grays: (
   900: $gray-900
 );
 
-$blue:    #0059B3; //#007bff;
+$blue:    #335F80;
+$darkblue: #0a3f67;
 $indigo:  #6610f2;
 $purple:  #6f42c1;
 $pink:    #e83e8c;
-$red:     #dc3545;
+$red:     #e94f37;
 $orange:  #fd7e14;
 $yellow:  #ffc107;
 $green:   #28a745;
@@ -66,7 +67,7 @@ $theme-colors: (
   warning: $yellow,
   danger: $red,
   light: $gray-100,
-  dark: #2f2f2f //$gray-800
+  dark: darken($darkblue, 5%)
 );
 
 $navbar-height: 3.5rem;

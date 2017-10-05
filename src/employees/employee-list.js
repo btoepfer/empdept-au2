@@ -13,11 +13,16 @@ export class EmployeeList {
     this.employee_edit_id = null;
     this.originalEmployee = "";
     this.router = router;
+    $('[data-toggle="popover"]').popover();
   }
 
   activate(model) {
     this.department = model.department;
     this.employees = model.employees;
+  }
+
+  attached() {
+    $('[data-toggle="popover"]').popover();
   }
 
   editEmployeeInline(employee) {
@@ -53,7 +58,7 @@ export class EmployeeList {
       .catch(err => alert(err.statusText));
   }
  
-
+  
   
 
 }
