@@ -58,6 +58,25 @@ export class EmployeeList {
       .catch(err => alert(err.statusText));
   }
  
+  getEmployeeByID(id) {
+    console.log(`employees: ${JSON.stringify(this.employees)}`);
+    return this.employees.find(emp => {
+      return (emp.id === id);
+    })
+    .attributes.ename;
+  }
+
+  showManagerList(employee) {
+    let htmlString = "<ul>";
+    if (employee.subordinates) {
+      employee.subordinates.map(empId => {
+        // htmlString = htmlString + "<li>"+this.getEmployeeByID(empId)+"</li>";
+        htmlString = htmlString + "<li>"+empId+"</li>";
+      });
+    }
+    htmlString = htmlString + "</ul>";
+    return htmlString;
+  }
   
   
 

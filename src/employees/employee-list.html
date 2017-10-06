@@ -55,7 +55,7 @@
                 <span click.delegate="newEditEmployee(employee.deptId, employee)">
                   <i class="far fa-pencil"></i>
                 </span>
-                <a tabindex="0" data-toggle="popover" data-placement="right" data-trigger="hover" title="Manager" data-content="${employee.manager}">
+                <a tabindex="0" data-html="true" data-toggle="popover" data-placement="right" data-trigger="hover" title="Manager" data-content="${showManagerList(employee)}">
                   <i class="far fa-info"></i>
                 </a>
               </div>
